@@ -1,8 +1,4 @@
-import {
-  HeroSection,
-  ServiceBenefits,
-  TextImageSection,
-} from '@/src/components'
+import { HeroSection, ServiceBenefits, TextImageSection } from '@components'
 import { TakeAction } from '@components'
 import { Box, Container, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
@@ -13,7 +9,7 @@ interface IServiceProps {}
 export default function Service(props: IServiceProps) {
   const router = useRouter()
   const capitalizeService = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1)
+    return !str ? '' : str.charAt(0).toUpperCase() + str.slice(1)
   }
   return (
     <>
@@ -22,9 +18,9 @@ export default function Service(props: IServiceProps) {
       />
       <HeroSection
         image={{
-          base: './images/services-sm.png',
-          md: './images/services-md.png',
-          xl: './images/services.png',
+          base: '/images/services-sm.png',
+          md: '/images/services-md.png',
+          xl: '/images/services.png',
         }}
         title='Our Services'
       />

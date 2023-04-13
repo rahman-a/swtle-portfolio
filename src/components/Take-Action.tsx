@@ -10,9 +10,9 @@ interface ITakeActionProps {
     href: string
   }
   width?: {
-    base: string
-    md: string
-    xl: string
+    base?: string
+    md?: string
+    xl?: string
   }
   isContactUs?: boolean
   styles?: React.CSSProperties

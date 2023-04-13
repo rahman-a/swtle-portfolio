@@ -1,17 +1,21 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   HStack,
   Text,
   VStack,
   type ButtonProps,
+  Divider,
+  List,
+  ListItem,
+  ListIcon,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import SectionImage from './Section-Image'
 import Image from 'next/image'
 import { ISectionImageProps } from './Section-Image'
+import { FillCircleIcon } from '../icons'
 
 type SectionButton = ButtonProps & {
   label: string
@@ -37,6 +41,21 @@ interface ITextImageSectionProps {
   }
   sectionImage: ISectionImageProps
   styles?: React.CSSProperties
+  HGap?: {
+    base?: number
+    md?: number
+    lg?: number
+    xl?: number
+    '2xl'?: number
+  }
+  verticalLine?: {
+    color: string
+    width: number
+  }
+  list?: {
+    id: number
+    text: string
+  }[]
 }
 
 export default function TextImageSection({
@@ -51,7 +70,10 @@ export default function TextImageSection({
   sectionImage,
   isReverse,
   descriptionFontSize,
+  verticalLine,
   styles,
+  HGap,
+  list,
 }: ITextImageSectionProps) {
   const router = useRouter()
   return (
@@ -90,7 +112,7 @@ export default function TextImageSection({
         </Box>
       )}
       <Flex
-        gap={{ base: 14 }}
+        gap={HGap ? { ...HGap } : { base: 14 }}
         alignItems='flex-start'
         flexDirection={{ base: 'column' }}
       >
@@ -155,15 +177,36 @@ export default function TextImageSection({
                 {subtitle}
               </Text>
             )}
-            <Text
-              as='p'
-              color='gray.500'
-              lineHeight={{ base: '1.8', md: '1.6' }}
-              fontSize={descriptionFontSize}
-              //   fontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
-            >
-              {description}
-            </Text>
+            <VStack spacing={8}>
+              <HStack direction='row'>
+                {verticalLine && (
+                  <Divider
+                    orientation='vertical'
+                    background={verticalLine.color}
+                    width={verticalLine.width}
+                  />
+                )}
+                <Text
+                  as='p'
+                  color='gray.500'
+                  lineHeight={{ base: '1.8', md: '1.6' }}
+                  fontSize={descriptionFontSize}
+                  //   fontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
+                >
+                  {description}
+                </Text>
+              </HStack>
+              {list && list.length > 0 && (
+                <List spacing={3}>
+                  {list.map((item) => (
+                    <ListItem key={item.id} fontSize={{ base: 'sm' }}>
+                      <ListIcon as={FillCircleIcon} color='variation' />
+                      {item.text}
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+            </VStack>
             {sectionButton && (
               <Button
                 onClick={() => router.push(sectionButton.href)}
@@ -179,6 +222,7 @@ export default function TextImageSection({
             radiusValue={sectionImage.radiusValue}
             outline={sectionImage.outline}
             styles={sectionImage.styles}
+            overlayText={sectionImage.overlayText}
           />
         </Flex>
       </Flex>

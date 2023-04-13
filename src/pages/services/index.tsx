@@ -28,9 +28,9 @@ export default function Services(props: IServicesProps) {
       <NextSeo title='Swtle | Services' />
       <HeroSection
         image={{
-          base: './images/services-sm.png',
-          md: './images/services-md.png',
-          xl: './images/services.png',
+          base: '/images/services-sm.png',
+          md: '/images/services-md.png',
+          xl: '/images/services.png',
         }}
         title='Our Services'
       />

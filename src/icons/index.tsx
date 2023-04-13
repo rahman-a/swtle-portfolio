@@ -6,8 +6,10 @@ import {
   BsLinkedin,
   BsFillChatFill,
   BsTwitter,
+  BsFillCircleFill,
 } from 'react-icons/bs'
 import { HiOutlineLocationMarker } from 'react-icons/hi'
+import { RiSendPlaneFill } from 'react-icons/ri'
 import {
   FaUserAlt,
   FaPlusCircle,
@@ -39,6 +41,12 @@ export const UserIcon = (props: any) => <Icon as={FaUserAlt} {...props} />
 export const FlagIcon = (props: any) => <Icon as={MdFlag} {...props} />
 export const CropIcon = (props: any) => <Icon as={MdCrop} {...props} />
 export const HomeIcon = (props: any) => <Icon as={FaHome} {...props} />
+export const SendPlaneIcon = (props: any) => (
+  <Icon as={RiSendPlaneFill} {...props} />
+)
+export const FillCircleIcon = (props: any) => (
+  <Icon as={BsFillCircleFill} {...props} />
+)
 export const BriefcaseIcon = (props: any) => (
   <Icon as={FaBriefcase} {...props} />
 )

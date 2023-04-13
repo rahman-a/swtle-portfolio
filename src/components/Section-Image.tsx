@@ -6,6 +6,7 @@ import React from 'react'
 export interface ISectionImageProps {
   image: string
   radius?: 'all' | 'top right' | 'top left' | 'bottom right' | 'bottom left'
+  overlayText?: string
   radiusValue?: string
   outline?: 'bottom right' | 'bottom left'
   styles?: React.CSSProperties
@@ -16,6 +17,7 @@ export default function SectionImage({
   radius,
   radiusValue,
   outline,
+  overlayText,
   styles,
 }: ISectionImageProps) {
   const outlineStyle = classNames({
@@ -36,6 +38,25 @@ export default function SectionImage({
       className={outlineStyle}
       style={{ ...styles }}
     >
+      {overlayText && (
+        <Box
+          position='absolute'
+          top='50%'
+          left='50%'
+          transform='translate(-50%, -50%)'
+          width='65%'
+          height='65%'
+          border='3px solid #fff'
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          color='white'
+          fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '6xl' }}
+          textTransform='uppercase'
+        >
+          {overlayText}
+        </Box>
+      )}
       <Image
         src={image}
         alt='section-image'
