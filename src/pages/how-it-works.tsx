@@ -91,15 +91,12 @@ export default function HowItWorks(props: IHowItWorksProps) {
       <NextSeo title='Swtle | How it Works' />
       <HeroSection
         image={{
-          base: './images/how-it-works-sm.png',
-          md: './images/how-it-works-md.png',
-          xl: './images/how-it-works.png',
+          base: '/images/how-it-works-sm.png',
+          md: '/images/how-it-works-md.png',
+          xl: '/images/how-it-works.png',
         }}
         title='How it Works?'
       />
-      {/* <Button position='fixed' zIndex='9999' onClick={indicatorOffsetHandler}>
-        animate offset
-      </Button> */}
       <Container minW='95%'>
         <Text
           as='h2'

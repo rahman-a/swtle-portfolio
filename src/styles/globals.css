@@ -23,7 +23,10 @@ a {
   position: relative;
   z-index: 99;
 }
-
+.header--bg {
+  background-color: rgba(33, 89, 127, 0.95);
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+}
 @media only screen and (max-width: 1280px) {
   .navigation {
     display: none;
@@ -37,7 +40,7 @@ main {
   min-height: 100vh;
 }
 
-footer {
+.footer {
   background-color: #151515;
   color: #fff;
   font-size: 16px;
@@ -129,4 +132,12 @@ footer {
   background-size: cover;
   width: 97.7px;
   height: 100px;
+}
+
+.PhoneInputInput {
+  color: #b6b6b6;
+}
+
+.PhoneInputInput:focus {
+  color: #000;
 }

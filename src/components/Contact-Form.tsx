@@ -57,6 +57,7 @@ export default function ContactForm(props: IContactFormProps) {
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
         style={{ marginTop: '3rem' }}
+        noValidate
       >
         <Stack spacing={8}>
           <FormControl

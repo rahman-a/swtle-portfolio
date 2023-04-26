@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 interface ICTAProps {
   label: string
   isOpen?: boolean
-  isHerSection?: boolean
+  isHeroSection?: boolean
   onClose?: () => void
 }
 
@@ -12,7 +12,7 @@ export default function CTA({
   label,
   isOpen,
   onClose,
-  isHerSection,
+  isHeroSection,
 }: ICTAProps) {
   const router = useRouter()
   const CtaHandler = () => {
@@ -22,7 +22,7 @@ export default function CTA({
   return (
     <Button
       display={{
-        base: isOpen || isHerSection ? 'block' : 'none',
+        base: isOpen || isHeroSection ? 'block' : 'none',
         xl: 'block',
       }}
       onClick={CtaHandler}

@@ -114,7 +114,7 @@ export default function Navigation({ isOpen, onClose }: INavigationProps) {
                       {isOpen && <Box>{link.icon}</Box>}
                       <Link
                         as={NextLink}
-                        href={'#'}
+                        href={''}
                         p={2}
                         fontSize='md'
                         fontWeight={500}

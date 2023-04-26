@@ -8,9 +8,9 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Button,
-  VStack,
   HStack,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import Language from './Language'
 import Navigation from './Navigation'
 import CTA from './CTA'
@@ -22,6 +22,7 @@ interface IDrawerProps {
 
 const DrawerComponent = forwardRef<HTMLButtonElement, IDrawerProps>(
   ({ isOpen, onClose }, ref) => {
+    const router = useRouter()
     return (
       <Drawer
         isOpen={isOpen}
@@ -39,7 +40,9 @@ const DrawerComponent = forwardRef<HTMLButtonElement, IDrawerProps>(
           </DrawerHeader>
           <DrawerBody p='0'>
             <Navigation isOpen={isOpen} onClose={onClose} />
-            <CTA isOpen={isOpen} onClose={onClose} label='Try Swtle Today' />
+            {router.asPath !== '/login' && router.asPath !== '/register' && (
+              <CTA label='Try Swtle Today' isOpen={isOpen} onClose={onClose} />
+            )}
           </DrawerBody>
           <DrawerFooter>
             <Button size='md' variant='outline' mr={3} onClick={onClose}>
