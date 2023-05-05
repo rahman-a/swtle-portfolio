@@ -23,7 +23,7 @@ export default function ChatWootLiveChat(props: IChatwootLiveChatProps) {
       g.async = !0
       g.onload = function () {
         window.chatwootSDK.run({
-          websiteToken: 'VuYhubWUkGNVBZsRWfAJ6GJt',
+          websiteToken: process.env.NEXT_PUBLIC_CHATWOOT_KEY,
           baseUrl: BASE_URL,
         })
       }
