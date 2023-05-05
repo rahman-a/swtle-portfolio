@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { useRef, forwardRef, useState, useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { useTranslation } from 'next-i18next'
 
 interface IUploadInputProps {
   name: string
@@ -25,6 +26,7 @@ const UploadInput = forwardRef<HTMLInputElement, IUploadInputProps>(
     const inputRef = useRef<HTMLInputElement>(null)
     const inputRefs = useMergeRefs(inputRef, ref)
     const { setValue, getValues } = useFormContext()
+    const { t } = useTranslation('registration')
     const [error, setError] = useState<{
       title: string
       description: string
@@ -35,15 +37,15 @@ const UploadInput = forwardRef<HTMLInputElement, IUploadInputProps>(
       const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg']
       if (!allowedTypes.includes(file.type)) {
         setError({
-          title: 'Invalid file type',
-          description: 'Please upload a valid image file (png, jpg or jpeg)',
+          title: t('registration.file_invalid'),
+          description: t('registration.file_upload_valid_format'),
         })
         return false
       }
       if (file.size > 2000000) {
         setError({
-          title: 'File too large',
-          description: 'Please upload a file smaller than 2MB',
+          title: t('registration.file_large'),
+          description: t('registration.file_upload_size', { size: '2MB' }),
         })
         return false
       }

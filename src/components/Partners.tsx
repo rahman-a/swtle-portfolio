@@ -1,9 +1,11 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
 
 export interface IPartnerProps {}
 
 export default function Partner(props: IPartnerProps) {
+  const { t } = useTranslation('home')
   return (
     <Box
       display='flex'
@@ -21,7 +23,7 @@ export default function Partner(props: IPartnerProps) {
         p={{ base: 4, md: 8 }}
       >
         <Text as='h3' color='primary'>
-          Partner of Success
+          {t('hero.partner_success')}
         </Text>
         <HStack justifyContent='space-evenly' w='100%'>
           <Image src='/images/tdra.png' alt='TDRA' width={100} height={100} />

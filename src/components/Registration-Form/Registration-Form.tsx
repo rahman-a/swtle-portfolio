@@ -10,6 +10,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
+import { useTranslation } from 'next-i18next'
 import CredentialForm from './Credential-Form'
 import PersonalInfoForm from './Personal-Info-Form'
 import Addresses from './Addresses-Form'
@@ -23,7 +24,7 @@ import type {
   Email,
   ExpireAt,
   IFDataExisted,
-} from '../../context/types/Registration-types'
+} from '../../types/Registration-types'
 import RegistrationFinish from './Registration-Finish'
 import userApi from '../../services/credentials'
 
@@ -44,8 +45,19 @@ export default function RegistrationForm({
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isFormButtonActive, setIsFormButtonActive] = useState(false)
   const [isFormButtonLoading, setIsFormButtonLoading] = useState(false)
+  const { t } = useTranslation('registration')
+  const { t: tc } = useTranslation('common')
   const [user, setUser] = useState<User | null>(null)
-  const toast = useToast()
+  const toast = useToast({
+    title: tc('error'),
+    position: 'top',
+    status: 'error',
+    duration: 10000,
+    isClosable: true,
+    containerStyle: {
+      justifyContent: 'flex-end',
+    },
+  })
   const methods = useForm<IRegistrationProps>({
     mode: 'all',
     defaultValues: {
@@ -118,12 +130,7 @@ export default function RegistrationForm({
     } catch (error: any) {
       if (error.response) {
         toast({
-          title: 'Error',
           description: error.response.data.message,
-          position: 'top',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
         })
       }
       return true
@@ -169,17 +176,11 @@ export default function RegistrationForm({
     try {
       const { data: responseData } = await userApi.registerUser(formData as any)
       setUser({ id: responseData.id, phone: responseData.phone })
-      console.log('🚀responseData-submit:', responseData)
       responseData.success && onOpen()
     } catch (error: any) {
       if (error.response) {
         toast({
-          title: 'Error',
           description: error.response.data.message,
-          position: 'top',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
         })
       }
     } finally {
@@ -211,12 +212,7 @@ export default function RegistrationForm({
     if (step === 4) {
       if (Object.keys(errors).length > 0) {
         toast({
-          title: 'Error',
-          description: 'Please fill all required fields',
-          position: 'top',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
+          description: t('registration.all_fields_required'),
         })
         return
       }
@@ -309,12 +305,12 @@ export default function RegistrationForm({
               *
             </Text>
             <Text as='span' fontSize='md' color='gray.600'>
-              Required Field
+              {t('registration.field_required_label')}
             </Text>
           </HStack>
           {step === 4 && (
             <Text as='p' fontSize='md' color='gray.600'>
-              Max File Sized: 2MB
+              {t('registration.max_file_size', { size: '2MB' })}
             </Text>
           )}
         </Flex>
@@ -341,7 +337,7 @@ export default function RegistrationForm({
               borderRadius='3xl'
               onClick={() => setStep((prev) => (prev > 0 ? prev - 1 : prev))}
             >
-              Back
+              {tc('back')}
             </Button>
           )}
           <Button
@@ -359,7 +355,7 @@ export default function RegistrationForm({
               },
             }}
           >
-            {step === 4 ? 'Finish' : 'Next'}
+            {step === 4 ? tc('finish') : tc('next')}
           </Button>
         </HStack>
       </Box>

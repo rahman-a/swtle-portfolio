@@ -1,9 +1,9 @@
-import { Button, Container, Flex } from '@chakra-ui/react'
+import { Container, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
 import { RegistrationForm, RegistrationProgressIndicator } from '@components'
-import RegistrationProvider from '../context/Registration-Context'
 import { useState } from 'react'
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 interface IRegisterProps {}
 
 export default function Register(props: IRegisterProps) {
@@ -19,12 +19,24 @@ export default function Register(props: IRegisterProps) {
           alignItems='flex-start'
           justifyContent={{ base: 'center', md: 'space-evenly' }}
         >
-          <RegistrationProvider>
-            <RegistrationProgressIndicator step={step} />
-            <RegistrationForm step={step} setStep={setStep} />
-          </RegistrationProvider>
+          <RegistrationProgressIndicator step={step} />
+          <RegistrationForm step={step} setStep={setStep} />
         </Flex>
       </Container>
     </>
   )
+}
+
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'registration',
+        'footer',
+      ])),
+    },
+  }
 }

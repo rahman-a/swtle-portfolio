@@ -19,10 +19,14 @@ import {
 } from '@chakra-ui/react'
 import { UserIcon, SuitCaseIcon } from '@icons'
 import { NextSeo } from 'next-seo'
-
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 interface IServicesProps {}
 
 export default function Services(props: IServicesProps) {
+  const { t } = useTranslation('services')
+  const { t: tn } = useTranslation('navigation')
   return (
     <>
       <NextSeo title='Swtle | Services' />
@@ -32,7 +36,7 @@ export default function Services(props: IServicesProps) {
           md: '/images/services-md.png',
           xl: '/images/services.png',
         }}
-        title='Our Services'
+        title={tn('services')}
       />
       <Container minWidth='95%'>
         <Box pt={{ base: 4, md: 12, lg: 16, xl: 20 }} position='relative'>
@@ -45,7 +49,7 @@ export default function Services(props: IServicesProps) {
                     as='h2'
                     fontSize={{ base: 'xl', md: '2xl', lg: '3xl', xl: '4xl' }}
                   >
-                    Individual
+                    {tn('services.individual')}
                   </Text>
                 </HStack>
               </Tab>
@@ -56,7 +60,7 @@ export default function Services(props: IServicesProps) {
                     as='h2'
                     fontSize={{ base: 'xl', md: '2xl', lg: '3xl', xl: '4xl' }}
                   >
-                    Business
+                    {tn('services.business')}
                   </Text>
                 </HStack>
               </Tab>
@@ -83,12 +87,12 @@ export default function Services(props: IServicesProps) {
           fontWeight='bold'
           fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
         >
-          Discover the Benefits of Our Professional Services
+          {t('services.benefits.header')}
         </Text>
         <Box>
           <TextImageSection
-            title='Prioritization'
-            description={`Organizing all your financial obligations in one place so you can prioritize basics and delay secondaries to save time and effort and facilitates the payment of your duties according to the due date.`}
+            title={`${t('services.benefits.1.title')}`}
+            description={`${t('services.benefits.1.content')}`}
             descriptionFontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
             sectionImage={{
               image: '/images/prioritization.png',
@@ -100,8 +104,8 @@ export default function Services(props: IServicesProps) {
         </Box>
         <Box>
           <TextImageSection
-            title='Payment guarantee'
-            description={`Tracking and protecting you financial dues and notifying the debtor of payment day to guarantee to receive them on time. In case of delay, his account will be blocked, and his credit rating will be downgraded; more over, he will pay a financial penalty, and will take legal procedures against him. Also, he will bear all the coasts of these legal procedures. Moreover, extending services scope includes tracking the debtor internationally if he traveled to evade payment and taking legal procedures against him wherever he was.`}
+            title={`${t('services.benefits.2.title')}`}
+            description={`${t('services.benefits.2.content')}`}
             descriptionFontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
             sectionImage={{
               image: '/images/payment-guarantee.png',
@@ -114,8 +118,8 @@ export default function Services(props: IServicesProps) {
         </Box>
         <Box>
           <TextImageSection
-            title='Increase Sales'
-            description={`Providing financial merit indicators and credit rating for customers through their financial transactions helps to decide about future sales and maintain reasonable levels of risk. In case of stumbling over and non-repayment, the site takes appropriate procedures without incurring the creditor any fees.`}
+            title={`${t('services.benefits.3.title')}`}
+            description={`${t('services.benefits.3.content')}`}
             descriptionFontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
             sectionImage={{
               image: '/images/increase-sales.png',
@@ -128,4 +132,17 @@ export default function Services(props: IServicesProps) {
       </Container>
     </>
   )
+}
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'services',
+        'footer',
+      ])),
+    },
+  }
 }

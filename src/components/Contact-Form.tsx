@@ -10,10 +10,13 @@ import {
   InputLeftElement,
   Button,
   HStack,
+  InputRightElement,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import * as React from 'react'
 import { AtSignIcon, PhoneIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'next-i18next'
 import { SendPlaneIcon, UserIcon } from '../icons'
 
 export interface IContactFormProps {}
@@ -26,6 +29,9 @@ type FormData = {
 }
 
 export default function ContactForm(props: IContactFormProps) {
+  const { locale } = useRouter()
+  const { t } = useTranslation('contact')
+  const { t: tc } = useTranslation('common')
   const {
     register,
     handleSubmit,
@@ -39,8 +45,6 @@ export default function ContactForm(props: IContactFormProps) {
     },
   })
 
-  console.log({ errors })
-
   const onSubmitHandler = (data: FormData) => {
     console.log({ data })
   }
@@ -52,7 +56,7 @@ export default function ContactForm(props: IContactFormProps) {
       width={{ base: '95%', lg: '45%' }}
     >
       <Text as='h2' fontSize='3xl'>
-        Contact us
+        {t('contact_us')}
       </Text>
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
@@ -71,9 +75,9 @@ export default function ContactForm(props: IContactFormProps) {
               </InputLeftElement>
               <Input
                 variant='flushed'
-                placeholder='Your full name *'
+                placeholder={`${t('contact.name')}`}
                 {...register('fullName', {
-                  required: 'Please type your full name',
+                  required: `${t('contact.name.required')}`,
                 })}
               />
             </InputGroup>
@@ -91,10 +95,10 @@ export default function ContactForm(props: IContactFormProps) {
                 <AtSignIcon color='gray.300' />
               </InputLeftElement>
               <Input
-                placeholder='Your E-mail Address *'
+                placeholder={`${t('contact.email_address')}`}
                 variant='flushed'
                 {...register('email', {
-                  required: 'Please type your E-mail Address',
+                  required: `${t('contact.email.required')}`,
                 })}
               />
             </InputGroup>
@@ -112,9 +116,11 @@ export default function ContactForm(props: IContactFormProps) {
                 <PhoneIcon color='gray.300' />
               </InputLeftElement>
               <Input
-                placeholder='Your Phone number *'
+                placeholder={`${t('contact.phone')}`}
                 variant='flushed'
-                {...register('phone', { required: 'Please enter your phone' })}
+                {...register('phone', {
+                  required: `${t('contact.phone.required')}`,
+                })}
               />
             </InputGroup>
             {errors.phone?.message && (
@@ -127,9 +133,11 @@ export default function ContactForm(props: IContactFormProps) {
             isInvalid={!!errors.message?.message}
           >
             <Textarea
-              placeholder='Your message *'
+              placeholder={`${t('contact.message')}`}
               variant='flushed'
-              {...register('message', { required: 'Please enter message' })}
+              {...register('message', {
+                required: `${t('contact.message.required')}`,
+              })}
             ></Textarea>
             {errors.message?.message && (
               <FormErrorMessage>{errors.message?.message}</FormErrorMessage>
@@ -143,7 +151,7 @@ export default function ContactForm(props: IContactFormProps) {
             borderRadius='3xl'
             type='submit'
           >
-            Send
+            {tc('send')}
           </Button>
         </HStack>
       </form>

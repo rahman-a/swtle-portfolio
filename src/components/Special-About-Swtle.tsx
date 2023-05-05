@@ -9,43 +9,35 @@ import {
 } from '@chakra-ui/react'
 import { CheckIcon } from '@chakra-ui/icons'
 import SectionImage from './Section-Image'
+import { useTranslation } from 'next-i18next'
 
 interface ISpecialAboutSwtleProps {}
 
-const features = [
-  {
-    id: 1,
-    title: 'Empowering Your Business with the Best Team',
-    description: `Hiring an elite work team with master’s and doctoral degrees,
-  specialized in all disciplines, including law, negotiation, legal
-  accounting, auditing, international arbitration, statistics,
-  traditional and behavioral economy, artificial intelligence
-  cybersecurity, psychology, and sociology.`,
-  },
-  {
-    id: 2,
-    title: 'Time Management Tools for Better Cash Flow and Business Continuity',
-    description: `Collecting debt as fast as possible using time management tools to
-  provide cash flow to ensure that clients’ business continues
-  smoothly.`,
-  },
-  {
-    id: 3,
-    title: 'The Art of Amicable Debt Recovery Without Incurring Legal Costs',
-    description: `Attempting to recover debts amicably, regardless of the cases
-  requiring legal procedures against the debtor if he evades payment
-  at no cost to the creditor.`,
-  },
-  {
-    id: 4,
-    title: 'International Debt Recovery with Free Updates for Creditors',
-    description: `Tracking the debtor internationally by our partners in case he
-  travels abroad to avoid payment while keeping direct contact with
-  the creditor to give him updates without any required fees.`,
-  },
-]
-
 export default function SpecialAboutSwtle(props: ISpecialAboutSwtleProps) {
+  const { t } = useTranslation('home')
+  const features = [
+    {
+      id: 1,
+      title: t('special.1.title'),
+      description: t('special.1.content'),
+    },
+    {
+      id: 2,
+      title: t('special.2.title'),
+      description: t('special.2.content'),
+    },
+    {
+      id: 3,
+      title: t('special.3.title'),
+      description: t('special.3.content'),
+    },
+    {
+      id: 4,
+      title: t('special.4.title'),
+      description: t('special.4.content'),
+    },
+  ]
+
   return (
     <Container minW='95%' py={20}>
       <Flex direction='column' gap={16} alignItems='center'>
@@ -55,7 +47,7 @@ export default function SpecialAboutSwtle(props: ISpecialAboutSwtleProps) {
           fontWeight='bold'
           color='secondary'
         >
-          What Special About Swtle?!
+          {t('special.title')}
         </Text>
         <Flex
           gap={{ base: 14, xl: 20 }}

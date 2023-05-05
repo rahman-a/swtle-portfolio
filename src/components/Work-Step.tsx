@@ -1,6 +1,7 @@
 import { Box, Flex, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
 import Image from 'next/image'
 import { forwardRef } from 'react'
+import { useTranslation } from 'next-i18next'
 
 interface IWorkStepProps {
   step: number
@@ -63,11 +64,12 @@ const WorkStep = forwardRef<HTMLDivElement, IWorkStepProps>(
 )
 
 function HexaGon({ step }: { step: number }) {
+  const { t } = useTranslation('how-it-works')
   return (
     <Box className='hexagon'>
       <VStack>
         <Text as='p' fontSize={{ base: 'sm' }} letterSpacing={1}>
-          STEP
+          {t('works.step')}
         </Text>
         <Text as='h4' fontSize={{ base: '2xl' }}>
           {step < 10 ? `0${step}` : step}

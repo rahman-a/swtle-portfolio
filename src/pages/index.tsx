@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import type { GetStaticPropsContext } from 'next'
 import {
   FAQ,
   HowItWorkDiagram,
@@ -11,46 +11,46 @@ import {
 } from '@components'
 import { NextSeo } from 'next-seo'
 import { Container } from '@chakra-ui/react'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export default function Home() {
+  const { t } = useTranslation('home')
+  const { t: tNav } = useTranslation('navigation')
+  const { t: tCommon } = useTranslation('common')
   return (
     <>
       <NextSeo
-        title='Swtle | Home'
+        title={`${tCommon('swtle')} | ${tNav('home')}`}
         description='Swtle is an electronic-transaction complex, licensed by the department of economics and tourism in Dubai and authorized by the telecommunications and digital government regulatory authority, used to prove forward sales, advanced payments and electronic invoices, Thus, we help save the environment and make data accessibility fast and effiecient anytime and anywhere...'
         canonical='https://www.swtle.com'
       />
       <MainHeroSection isStatistics />
       <WhySwtle />
       <TakeAction
-        content='Sign up today and enjoy the peace of mind that comes with organized, secure financial transactions and electronic invoicing.'
-        cta={{ label: 'Sign up', href: '/login' }}
+        content={t('cta.1.title')}
+        cta={{ label: tCommon('sign_up'), href: '/login' }}
         width={{ base: '100%', md: '80%', xl: '60%' }}
         styles={{ padding: '2.5rem 0', backgroundColor: '#F9F9F9' }}
       />
       <SpecialAboutSwtle />
       <HowItWorkDiagram
         images={{
-          base: '/images/diagram-sm.svg',
-          sm: '/images/diagram-md.svg',
-          lg: '/images/diagram.svg',
+          base: t('diagram_small'),
+          sm: t('diagram_medium'),
+          lg: t('diagram_large'),
         }}
       />
       <Container minWidth='95%'>
         <TextImageSection
-          header='About us'
+          header={`${t('about.header')}`}
           isSubHeaderLine={true}
-          title='Simplify Your Financial Transactions with Swtle'
-          subtitle='Your Trusted Legal Electronic Complex'
-          description={`Swtle is an electronic-transaction complex, licensed by the
-        department of economics and tourism in Dubai and authorized by
-        the telecommunications and digital government regulatory
-        authority, used to prove forward sales, advanced payments and
-        electronic invoices, Thus, we help save the environment and make
-        data accessibility fast and effiecient anytime and anywhere...`}
+          title={`${t('about.title')}`}
+          subtitle={`${t('about.subtitle')}`}
+          description={`${t('about.content')}`}
           descriptionFontSize={{ base: 'sm', md: 'md' }}
           sectionButton={{
-            label: 'Read more...',
+            label: tCommon('read_more'),
             href: '/about-us',
             variant: 'primary',
             borderRadius: 8,
@@ -67,4 +67,17 @@ export default function Home() {
       <TakeActionSection />
     </>
   )
+}
+
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'footer',
+      ])),
+    },
+  }
 }

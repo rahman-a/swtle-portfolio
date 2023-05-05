@@ -141,3 +141,10 @@ main {
 .PhoneInputInput:focus {
   color: #000;
 }
+.flag-select-ar .ReactFlagsSelect-module_selectValue__152eS,
+.ReactFlagsSelect-module_selectOptionValue__vS99- {
+  gap: 0.5rem;
+}
+.phone-input input {
+  direction: ltr;
+}

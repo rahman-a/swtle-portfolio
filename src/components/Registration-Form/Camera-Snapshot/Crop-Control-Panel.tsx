@@ -8,6 +8,7 @@ import {
 } from '@/src/icons'
 import { Button, Flex, HStack, Hide, IconButton, Show } from '@chakra-ui/react'
 import Slider from './Slider'
+import { useTranslation } from 'next-i18next'
 
 interface ICropControlPanelProps {
   cropPhotoHandler: () => void
@@ -32,6 +33,8 @@ export default function CropControlPanel({
   rotation,
   setRotation,
 }: ICropControlPanelProps) {
+  const { t } = useTranslation('registration')
+  const { t: tc } = useTranslation('common')
   const selectFinalOutput = (): void => {
     if (!isPhotoCropped) {
       selectCurrentPhotoHandler(undefined)
@@ -83,7 +86,7 @@ export default function CropControlPanel({
         <IconButton
           color='secondary'
           variant='ghost'
-          aria-label='crop photo'
+          aria-label={t('registration.camera_crop')}
           onClick={cropPhotoHandler}
           icon={<CropIcon />}
         />
@@ -96,7 +99,7 @@ export default function CropControlPanel({
           <IconButton
             color='secondary'
             variant='ghost'
-            aria-label='zoom out photo'
+            aria-label={t('registration.camera_zoom_out')}
             icon={<ZoomOutIcon />}
             onClick={() => handleZoom(0.1, 'decrease')}
           />
@@ -114,7 +117,7 @@ export default function CropControlPanel({
           <IconButton
             color='secondary'
             variant='ghost'
-            aria-label='zoom in photo'
+            aria-label={t('registration.camera_zoom_in')}
             icon={<ZoomInIcon />}
             onClick={() => handleZoom(0.1, 'increase')}
           />
@@ -123,7 +126,7 @@ export default function CropControlPanel({
           <IconButton
             color='secondary'
             variant='ghost'
-            aria-label='rotate left photo'
+            aria-label={t('registration.camera_rotate_left')}
             icon={<RotateLeftIcon />}
             onClick={() => handleRotate('decrease')}
           />
@@ -141,7 +144,7 @@ export default function CropControlPanel({
           <IconButton
             color='secondary'
             variant='ghost'
-            aria-label='rotate right photo'
+            aria-label={t('registration.camera_rotate_right')}
             icon={<RotateRightIcon />}
             onClick={() => handleRotate('increase')}
           />
@@ -159,7 +162,7 @@ export default function CropControlPanel({
             variant='primary'
             leftIcon={<CropIcon />}
           >
-            Crop
+            {t('registration.camera_crop')}
           </Button>
         </Show>
         <Button
@@ -168,7 +171,7 @@ export default function CropControlPanel({
           size='sm'
           variant='primary'
         >
-          Reset
+          {tc('reset')}
         </Button>
         <Button
           onClick={selectFinalOutput}
@@ -176,7 +179,7 @@ export default function CropControlPanel({
           size='sm'
           variant='primary'
         >
-          Select
+          {tc('select')}
         </Button>
       </HStack>
     </Flex>

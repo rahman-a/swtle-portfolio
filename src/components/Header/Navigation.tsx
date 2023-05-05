@@ -13,6 +13,7 @@ import {
   PopoverCloseButton,
 } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'next-i18next'
 import classNames from 'classnames'
 import {
   HomeIcon,
@@ -22,76 +23,97 @@ import {
   TeamIcon,
   InfoIcon,
 } from '@icons'
+import { useRouter } from 'next/router'
 
 interface INavigationProps {
   isOpen?: boolean
   onClose?: () => void
 }
 
-const links = [
-  { id: 1, label: 'Home', url: '/', icon: <HomeIcon color='teal' /> },
-  {
-    id: 2,
-    label: 'Our Services',
-    url: '/services',
-    icon: <BriefcaseIcon color='teal' />,
-    children: {
-      individual: [
-        {
-          id: 1,
-          label: 'Prepayment Recording',
-          url: '/services/prepayment-recording',
-        },
-        {
-          id: 2,
-          label: 'Electronic Invoicing',
-          url: '/services/electronic-invoicing',
-        },
-        { id: 3, label: 'Payment Tracking', url: '/services/payment-tracking' },
-        { id: 4, label: 'Cashback & Offers', url: '/services/cashback-offers' },
-      ],
-      business: [
-        { id: 1, label: 'Finance', url: '/services/finance' },
-        { id: 2, label: 'Accounting', url: '/services/accounting' },
-        {
-          id: 3,
-          label: 'Electronic Invoicing',
-          url: '/services/electronic-invoicing',
-        },
-        {
-          id: 4,
-          label: 'Credit Indicators',
-          url: '/services/credit-indicators',
-        },
-        { id: 5, label: 'Expenses', url: '/services/expenses' },
-      ],
-    },
-  },
-  {
-    id: 3,
-    label: 'How it works?',
-    url: '/how-it-works',
-    icon: <GearIcon color='teal' />,
-  },
-  { id: 4, label: 'Our Team', url: '/team', icon: <TeamIcon color='teal' /> },
-  {
-    id: 5,
-    label: 'About us',
-    url: '/about-us',
-    icon: <InfoIcon color='teal' />,
-  },
-  {
-    id: 6,
-    label: 'Contact us',
-    url: '/contact-us',
-    icon: <EnvelopeIcon color='teal' />,
-  },
-]
-
 export default function Navigation({ isOpen, onClose }: INavigationProps) {
+  const { locale } = useRouter()
+  const { t } = useTranslation('navigation')
+  const { t: tc } = useTranslation('common')
   const navClassNames = classNames('navigation', {
     show: isOpen,
   })
+
+  const links = [
+    { id: 1, label: t('home'), url: '/', icon: <HomeIcon color='teal' /> },
+    {
+      id: 2,
+      label: t('services'),
+      url: '/services',
+      icon: <BriefcaseIcon color='teal' />,
+      children: {
+        individual: [
+          {
+            id: 1,
+            label: t('services.prepayment_recording'),
+            url: '/services/prepayment-recording',
+          },
+          {
+            id: 2,
+            label: t('services.electronic_invoicing'),
+            url: '/services/electronic-invoicing',
+          },
+          {
+            id: 3,
+            label: t('services.payment_tracking'),
+            url: '/services/payment-tracking',
+          },
+          {
+            id: 4,
+            label: t('services.cashback_offers'),
+            url: '/services/cashback-offers',
+          },
+        ],
+        business: [
+          { id: 1, label: t('services.finance'), url: '/services/finance' },
+          {
+            id: 2,
+            label: t('services.accounting'),
+            url: '/services/accounting',
+          },
+          {
+            id: 3,
+            label: t('services.electronic_invoicing'),
+            url: '/services/electronic-invoicing',
+          },
+          {
+            id: 4,
+            label: t('services.credit_indicator'),
+            url: '/services/credit-indicators',
+          },
+          { id: 5, label: t('services.expenses'), url: '/services/expenses' },
+        ],
+      },
+    },
+    {
+      id: 3,
+      label: t('how_it_works'),
+      url: '/how-it-works',
+      icon: <GearIcon color='teal' />,
+    },
+    {
+      id: 4,
+      label: t('our_team'),
+      url: '/team',
+      icon: <TeamIcon color='teal' />,
+    },
+    {
+      id: 5,
+      label: t('about_us'),
+      url: '/about-us',
+      icon: <InfoIcon color='teal' />,
+    },
+    {
+      id: 6,
+      label: t('contact_us'),
+      url: '/contact-us',
+      icon: <EnvelopeIcon color='teal' />,
+    },
+  ]
   return (
     <nav className={navClassNames}>
       <Stack
@@ -103,7 +125,10 @@ export default function Navigation({ isOpen, onClose }: INavigationProps) {
           if (link.children) {
             return (
               <Box key={link.id} width={isOpen ? '100%' : 'auto'}>
-                <Popover trigger={'hover'} placement={'bottom-start'}>
+                <Popover
+                  trigger={'hover'}
+                  placement={locale === 'ar' ? 'bottom-end' : 'bottom-start'}
+                >
                   <PopoverTrigger>
                     <HStack
                       spacing={2}
@@ -137,14 +162,14 @@ export default function Navigation({ isOpen, onClose }: INavigationProps) {
                       position={'relative'}
                       bg='white'
                       rounded='xl'
-                      minW={{ base: 'xs', sm: 'sm', lg: 'md', xl: 'lg' }}
+                      minW={{ base: 'xs', sm: 'sm', md: 'md' }}
                     >
                       <PopoverArrow />
                       <PopoverCloseButton color='primary' />
                       <HStack p={5} alignItems={'flex-start'}>
                         <SubNavItems
                           items={link.children.individual}
-                          title='Individual'
+                          title={t('services.individual')}
                           onClose={onClose && onClose}
                         />
                         <Divider
@@ -154,7 +179,7 @@ export default function Navigation({ isOpen, onClose }: INavigationProps) {
                         />
                         <SubNavItems
                           items={link.children.business}
-                          title='Business'
+                          title={t('services.business')}
                           onClose={onClose && onClose}
                         />
                       </HStack>
@@ -163,11 +188,12 @@ export default function Navigation({ isOpen, onClose }: INavigationProps) {
                         href='/services'
                         color='secondary'
                         position={'absolute'}
-                        right='2rem'
+                        right={locale === 'en' ? '2rem' : 'unset'}
+                        left={locale === 'ar' ? '2rem' : 'unset'}
                         bottom='1rem'
                         fontSize='sm'
                       >
-                        See More...
+                        {tc('see_more')}
                       </Link>
                     </PopoverContent>
                   )}

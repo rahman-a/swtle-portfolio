@@ -3,15 +3,16 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  HStack,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Stack,
 } from '@chakra-ui/react'
-import type { IRegistrationProps } from '../../context/types/Registration-types'
+import { useTranslation } from 'next-i18next'
+import type { IRegistrationProps } from '../../types/Registration-types'
 import { useFormContext } from 'react-hook-form'
+import { useRouter } from 'next/router'
 
 interface IPersonalInfoFormProps {
   isVisible: boolean
@@ -20,6 +21,8 @@ interface IPersonalInfoFormProps {
 export default function PersonalInfoForm({
   isVisible,
 }: IPersonalInfoFormProps) {
+  const { t } = useTranslation('registration')
+  const { locale } = useRouter()
   const {
     register,
     formState: { errors },
@@ -35,17 +38,25 @@ export default function PersonalInfoForm({
           isRequired
           isInvalid={!!errors.fullNameInEnglish?.message}
         >
-          <FormLabel htmlFor='englishName'>Full Name in English</FormLabel>
+          <FormLabel htmlFor='englishName'>
+            {t('registration.full_name', {
+              type: locale === 'en' ? 'English' : 'الإنجليزى',
+            })}
+          </FormLabel>
           <InputGroup>
             <InputLeftElement color='gray.500'>
               <UserIcon />
             </InputLeftElement>
             <Input
               {...register('fullNameInEnglish', {
-                required: 'Please enter your full name in English',
+                required: `${t('registration.full_name_required', {
+                  type: locale === 'en' ? 'English' : 'الإنجليزى',
+                })}`,
               })}
               id='englishName'
-              placeholder='Full Name'
+              placeholder={`${t('registration.full_name', {
+                type: locale === 'en' ? 'English' : 'الإنجليزى',
+              })}`}
             />
           </InputGroup>
           {errors.fullNameInEnglish?.message && (
@@ -57,21 +68,27 @@ export default function PersonalInfoForm({
         <FormControl
           id='arabicName'
           isRequired
-          style={{ direction: 'rtl' }}
           isInvalid={!!errors.fullNameInArabic?.message}
         >
-          <FormLabel htmlFor='arabicName'>الأسم كاملاًُ بالعربى</FormLabel>
+          <FormLabel htmlFor='arabicName'>
+            {t('registration.full_name', {
+              type: locale === 'en' ? 'Arabic' : 'العربى',
+            })}
+          </FormLabel>
           <InputGroup>
-            <InputRightElement color='gray.500'>
+            <InputLeftElement color='gray.500'>
               <UserIcon />
-            </InputRightElement>
+            </InputLeftElement>
             <Input
               {...register('fullNameInArabic', {
-                required: 'Please enter your full name in Arabic',
+                required: `${t('registration.full_name_required', {
+                  type: locale === 'en' ? 'Arabic' : 'العربى',
+                })}`,
               })}
               id='arabicName'
-              placeholder='الأسم كاملاً بالعربى'
-              paddingInlineStart={8}
+              placeholder={`${t('registration.full_name', {
+                type: locale === 'en' ? 'Arabic' : 'العربى',
+              })}`}
             />
           </InputGroup>
           {errors.fullNameInArabic?.message && (
@@ -85,17 +102,17 @@ export default function PersonalInfoForm({
           isRequired
           isInvalid={!!errors.company?.message}
         >
-          <FormLabel htmlFor='company'>Company you worked for</FormLabel>
+          <FormLabel htmlFor='company'>{t('registration.company')}</FormLabel>
           <InputGroup>
             <InputLeftElement color='gray.500'>
               <SuitCaseIcon />
             </InputLeftElement>
             <Input
               {...register('company', {
-                required: 'Please enter the company you worked for',
+                required: `${t('registration.company_required')}`,
               })}
               id='company'
-              placeholder='Company Name'
+              placeholder={`${t('registration.company')}`}
             />
           </InputGroup>
           {errors.company?.message && (

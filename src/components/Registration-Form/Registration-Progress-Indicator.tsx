@@ -1,14 +1,8 @@
 import { Box, List, ListItem, Stack, Text } from '@chakra-ui/react'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import IndicatorCircle from './Indicator-Circle'
 import IndicatorLine from './Indicator-Line'
-
-const steps = [
-  { id: 1, name: 'Credential', phase: 0 },
-  { id: 2, name: 'Personal Info', phase: 1 },
-  { id: 3, name: 'Addresses', phase: 2 },
-  { id: 4, name: 'Phones', phase: 3 },
-  { id: 5, name: 'Verification Documents', phase: 4 },
-]
 
 export interface IRegistrationProgressIndicatorProps {
   step: number
@@ -17,8 +11,21 @@ export interface IRegistrationProgressIndicatorProps {
 export default function RegistrationProgressIndicator({
   step,
 }: IRegistrationProgressIndicatorProps) {
+  const { t } = useTranslation('registration')
+  const { locale } = useRouter()
+  const steps = [
+    { id: 1, name: t('registration.credential'), phase: 0 },
+    { id: 2, name: t('registration.personal_info'), phase: 1 },
+    { id: 3, name: t('registration.address_info'), phase: 2 },
+    { id: 4, name: t('registration.phones_info'), phase: 3 },
+    { id: 5, name: t('registration.documents_info'), phase: 4 },
+  ]
+
   return (
-    <Box position='relative'>
+    <Box
+      position='relative'
+      right={{ base: locale === 'ar' ? '-1rem' : '0', sm: '0' }}
+    >
       <IndicatorLine step={step} />
       <List
         spacing={{ base: 0, md: 12 }}
@@ -54,7 +61,10 @@ export default function RegistrationProgressIndicator({
                 as='p'
                 margin='0'
                 fontSize={{ base: 'xs', sm: 'sm', md: 'lg', lg: 'xl' }}
-                textAlign={{ base: 'center', md: 'left' }}
+                textAlign={{
+                  base: 'center',
+                  md: locale === 'ar' ? 'right' : 'left',
+                }}
               >
                 {s.name}
               </Text>

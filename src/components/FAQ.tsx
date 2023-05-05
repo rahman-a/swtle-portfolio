@@ -12,29 +12,32 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 interface IFAQProps {}
 
-const questions = [
-  {
-    id: 1,
-    title: 'How much does the subscription cost?',
-    answer: `Subscription is free and does not cost any fees`,
-  },
-  {
-    id: 2,
-    title: 'Is payment made in or off-site?',
-    answer: `Payment made on both website and off-website`,
-  },
-  {
-    id: 3,
-    title: 'What procedures do you take in case of default?',
-    answer: ``,
-  },
-]
-
 export default function FAQ(props: IFAQProps) {
   const router = useRouter()
+  const locale = router.locale
+  const { t } = useTranslation('home')
+  const { t: tc } = useTranslation('common')
+  const questions = [
+    {
+      id: 1,
+      title: t('faq.1.question'),
+      answer: t('faq.1.answer'),
+    },
+    {
+      id: 2,
+      title: t('faq.2.question'),
+      answer: t('faq.2.answer'),
+    },
+    {
+      id: 3,
+      title: t('faq.3.question'),
+      answer: t('faq.3.answer'),
+    },
+  ]
   return (
     <Box
       position='relative'
@@ -63,16 +66,18 @@ export default function FAQ(props: IFAQProps) {
           gap={{ base: 8 }}
         >
           <VStack>
-            <Text
-              as='p'
-              color='white'
-              fontSize={{ base: '2xl' }}
-              fontWeight='300'
-            >
-              Frequently
-            </Text>
+            {router.locale === 'en' && (
+              <Text
+                as='p'
+                color='white'
+                fontSize={{ base: '2xl' }}
+                fontWeight='300'
+              >
+                {t('faq.header')}
+              </Text>
+            )}
             <Text as='h3' color='white' fontSize={{ base: '3xl' }}>
-              Asked Questions
+              {t('faq.title')}
             </Text>
           </VStack>
           <Accordion
@@ -85,7 +90,11 @@ export default function FAQ(props: IFAQProps) {
               <AccordionItem key={question.id} p='1rem 1rem 0 1rem'>
                 <h2>
                   <AccordionButton>
-                    <Box as='span' flex='1' textAlign='left'>
+                    <Box
+                      as='span'
+                      flex='1'
+                      textAlign={locale === 'ar' ? 'right' : 'left'}
+                    >
                       {question.title}
                     </Box>
                     <AccordionIcon />
@@ -103,7 +112,7 @@ export default function FAQ(props: IFAQProps) {
             borderRadius={20}
             my={8}
           >
-            See more...
+            {tc('see_more')}
           </Button>
         </Flex>
       </Container>

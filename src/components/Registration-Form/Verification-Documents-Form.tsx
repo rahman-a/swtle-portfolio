@@ -3,15 +3,15 @@ import {
   Divider,
   Flex,
   FormControl,
-  FormLabel,
   HStack,
   Input,
   Text,
   VStack,
   useMediaQuery,
 } from '@chakra-ui/react'
-import type { IRegistrationProps } from '../../context/types/Registration-types'
+import type { IRegistrationProps } from '../../types/Registration-types'
 import { useFormContext, Controller } from 'react-hook-form'
+import { useTranslation } from 'next-i18next'
 import Thumbnail from './Thumbnail'
 import { useRef, useState } from 'react'
 import UploadInput from './Upload-Input'
@@ -24,25 +24,28 @@ interface IVerificationDocumentsFormProps {
 export default function VerificationDocumentsForm({
   isVisible,
 }: IVerificationDocumentsFormProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)')
   const [toggleIdInputDate, setToggleIdInputDate] = useState(false)
   const [togglePassInputDate, setTogglePassInputDate] = useState(false)
-  const {
-    formState: { errors },
-    control,
-    register,
-  } = useFormContext<IRegistrationProps>()
+  const { t } = useTranslation('registration')
+  const { t: tc } = useTranslation('common')
+  const { control, register } = useFormContext<IRegistrationProps>()
   return (
     <section
       data-step='verification documents'
       style={{ display: isVisible ? 'block' : 'none' }}
     >
       <Flex justifyContent='space-between' gap={{ base: 4, sm: 0 }}>
-        <Thumbnail name='avatar' label='Personal Photo' />
-        <Thumbnail name='identity-front' label='Identity (front side)' />
-        <Thumbnail name='identity-back' label='Identity (back side)' />
-        <Thumbnail name='passport' label='Passport Document' />
+        <Thumbnail name='avatar' label={t('registration.personal_photo')} />
+        <Thumbnail
+          name='identity-front'
+          label={t('registration.identity_front')}
+        />
+        <Thumbnail
+          name='identity-back'
+          label={t('registration.identity_back')}
+        />
+        <Thumbnail name='passport' label={t('registration.identity_back')} />
       </Flex>
       <Box my={12}>
         <Flex
@@ -54,12 +57,12 @@ export default function VerificationDocumentsForm({
               name='avatar'
               control={control}
               rules={{
-                required: 'Please upload your personal photo',
+                required: `${t('registration.personal_photo_required')}`,
               }}
               render={({ field }) => (
                 <UploadInput
-                  text='Upload your personal photo'
-                  label='Personal Photo'
+                  text={t('registration.personal_photo_upload')}
+                  label={t('registration.personal_photo')}
                   id='personal-photo'
                   iconSize={12}
                   {...field}
@@ -67,7 +70,7 @@ export default function VerificationDocumentsForm({
               )}
             />
             <Text color='gray.500' as='p' fontSize='xl'>
-              OR
+              {tc('or').toLocaleUpperCase()}
             </Text>
             <CameraShot iconSize={12} />
           </HStack>
@@ -82,11 +85,11 @@ export default function VerificationDocumentsForm({
                 <Controller
                   name='identity-front'
                   control={control}
-                  rules={{ required: 'Please upload your identity document' }}
+                  rules={{ required: `${t('registration.identity_upload')}` }}
                   render={({ field }) => (
                     <UploadInput
-                      text='Upload your identity (front-side)'
-                      label='Identity Front-side Document'
+                      text={t('registration.identity_front_upload')}
+                      label={t('registration.identity_front_label')}
                       id='identity-card-front'
                       {...field}
                     />
@@ -95,10 +98,10 @@ export default function VerificationDocumentsForm({
                 <Input
                   id='expireAt-id'
                   type={toggleIdInputDate ? 'date' : 'text'}
-                  placeholder='Enter the Expiry Date'
+                  placeholder={`${t('registration.expireAt_required')}`}
                   onFocus={() => setToggleIdInputDate(true)}
                   {...register('expireAt.identity', {
-                    required: 'Please enter the expiry date',
+                    required: `${t('registration.expireAt_required')}`,
                   })}
                 />
               </VStack>
@@ -115,11 +118,11 @@ export default function VerificationDocumentsForm({
               <Controller
                 name='identity-back'
                 control={control}
-                rules={{ required: 'Please upload your identity document' }}
+                rules={{ required: `${t('registration.identity_upload')}` }}
                 render={({ field }) => (
                   <UploadInput
-                    text='Upload your identity (back-side)'
-                    label='Identity Back-side Document'
+                    text={t('registration.identity_back_upload')}
+                    label={t('registration.identity_back_label')}
                     id='identity-card-back'
                     {...field}
                   />
@@ -138,11 +141,11 @@ export default function VerificationDocumentsForm({
                 <Controller
                   name='passport'
                   control={control}
-                  rules={{ required: 'Please upload your passport document' }}
+                  rules={{ required: `${t('registration.passport_upload')}` }}
                   render={({ field }) => (
                     <UploadInput
-                      text='Upload your Passport'
-                      label='Passport Document'
+                      text={t('registration.passport_upload')}
+                      label={t('registration.passport')}
                       id='passport-doc'
                       {...field}
                     />
@@ -151,10 +154,10 @@ export default function VerificationDocumentsForm({
                 <Input
                   id='expireAt-pass'
                   type={togglePassInputDate ? 'date' : 'text'}
-                  placeholder='Enter the Expiry Date'
+                  placeholder={`${t('registration.expireAt_required')}`}
                   onFocus={() => setTogglePassInputDate(true)}
                   {...register('expireAt.passport', {
-                    required: 'Please enter the expiry date',
+                    required: `${t('registration.expireAt_required')}`,
                   })}
                 />
               </VStack>

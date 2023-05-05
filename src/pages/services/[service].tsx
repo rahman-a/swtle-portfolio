@@ -1,13 +1,22 @@
-import { HeroSection, ServiceBenefits, TextImageSection } from '@components'
-import { TakeAction } from '@components'
+import {
+  HeroSection,
+  ServiceBenefits,
+  TextImageSection,
+  TakeAction,
+} from '@components'
 import { Box, Container, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
-
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 interface IServiceProps {}
 
 export default function Service(props: IServiceProps) {
   const router = useRouter()
+  const { t } = useTranslation('services')
+  const { t: tn } = useTranslation('navigation')
+  const { t: tc } = useTranslation('common')
   const capitalizeService = (str: string) => {
     return !str ? '' : str.charAt(0).toUpperCase() + str.slice(1)
   }
@@ -22,12 +31,12 @@ export default function Service(props: IServiceProps) {
           md: '/images/services-md.png',
           xl: '/images/services.png',
         }}
-        title='Our Services'
+        title={tn('services')}
       />
       <Container minWidth='95%'>
         <TextImageSection
-          title='Proving finance transactions and setting reminders of payment dates'
-          description={`Our platform provides a secure way to prove your financial transactions from debts, electronic bills, securities, or physical rights. With the latest technological methods, you can track your debts locally and internationally, ensuring protection and tracking of your funds. We also make sure to pay you on time without any additional fees or bargaining, even if the debtor changes its place of residence.`}
+          title={`${t('services.benefits.1.title')}`}
+          description={`${t('services.benefits.1.content')}`}
           sectionImage={{
             image: '/images/service-card.png',
           }}
@@ -41,13 +50,51 @@ export default function Service(props: IServiceProps) {
       </Flex>
       <Box py={12} px={{ base: 4, md: 0 }}>
         <TakeAction
-          content='Sign up today and experience hassle-free management of your finances, secure transactions, and timely payments.'
+          content={t('services.cta.content')}
           cta={{
-            label: 'Try Swtle',
-            href: '/login',
+            label: tc('try_swtle_today'),
+            href: `${process.env.NEXT_PUBLIC_APP_URL}`,
           }}
         />
       </Box>
     </>
   )
+}
+
+export const getStaticPaths = async ({ locales }: GetStaticPropsContext) => {
+  const paths = []
+  const slugs = [
+    'prepayment-recording',
+    'electronic-invoicing',
+    'payment-tracking',
+    'cashback-offers',
+    'finance',
+    'accounting',
+    'electronic-invoicing',
+    'credit-indicators',
+    'expenses',
+  ]
+  for (const locale of locales!) {
+    for (const slug of slugs) {
+      paths.push({ params: { service: slug }, locale })
+    }
+  }
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'services',
+        'footer',
+      ])),
+    },
+  }
 }

@@ -7,10 +7,15 @@ import {
   TextImageSection,
 } from '@components'
 import { NextSeo } from 'next-seo'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 
 interface ITeamProps {}
 
 export default function Team(props: ITeamProps) {
+  const { t } = useTranslation('team')
+  const { t: tn } = useTranslation('navigation')
   return (
     <>
       <NextSeo title='Swtle | Our Team' />
@@ -20,12 +25,12 @@ export default function Team(props: ITeamProps) {
           md: '/images/team-md.png',
           xl: '/images/team.png',
         }}
-        title='Our Team'
+        title={tn('our_team')}
       />
       <Container minW='95%'>
         <TextImageSection
-          header='Meet  Our Team'
-          description={`Our team consists of highly qualified individuals with master's and doctoral degrees, specializing in a diverse range of fields. From law to artificial intelligence, from psychology to traditional and behavioral economy, we have experts in all disciplines. At Swtle, we believe that our team is our greatest asset. We prioritize hiring the best talent in the industry to provide our clients with unparalleled service and results.`}
+          header={`${t('team.header')}`}
+          description={`${t('team.content')}`}
           descriptionFontSize={{
             base: 'md',
             md: 'xl',
@@ -37,7 +42,7 @@ export default function Team(props: ITeamProps) {
           }}
           sectionImage={{
             image: '/images/team-text.png',
-            overlayText: 'team',
+            overlayText: `${t('team')}`,
           }}
           verticalLine={{
             color: 'variation',
@@ -51,8 +56,7 @@ export default function Team(props: ITeamProps) {
         </Flex>
 
         <TakeAction
-          content={`Thank you for taking the time to learn more about our team at Swtle.
-          We are proud to have assembled a group of highly qualified and dedicated professionals who are committed to providing our clients with exceptional service and results.`}
+          content={t('team.cta.content')}
           isContactUs={true}
           width={{
             base: '100%',
@@ -66,4 +70,17 @@ export default function Team(props: ITeamProps) {
       </Container>
     </>
   )
+}
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'team',
+        'footer',
+      ])),
+    },
+  }
 }

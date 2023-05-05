@@ -23,6 +23,7 @@ import {
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import Countdown, { zeroPad } from 'react-countdown'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import userApi from '../../services/credentials'
 
@@ -56,8 +57,17 @@ export default function RegistrationFinish({
   const [isUpdatingPhoneLoading, setIsUpdatingPhoneLoading] =
     useState<boolean>(false)
   const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false)
+  const { t } = useTranslation('registration')
+  const { t: tc } = useTranslation('common')
   const router = useRouter()
-  const toast = useToast()
+  const locale = router.locale
+  const toast = useToast({
+    title: tc('error'),
+    position: 'top',
+    status: 'error',
+    duration: 10000,
+    isClosable: true,
+  })
 
   const sendPhoneVerificationCode = async () => {
     setSendingCodeLoading(true)
@@ -67,12 +77,7 @@ export default function RegistrationFinish({
     } catch (error: any) {
       if (error.response) {
         toast({
-          title: 'Error',
           description: error.response.data.message,
-          position: 'top',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
         })
       }
     } finally {
@@ -82,15 +87,9 @@ export default function RegistrationFinish({
 
   const updatePhoneHandler = async () => {
     setIsUpdatingPhoneLoading(true)
-    console.log('🚀insidePhone:', insidePhone)
     if (!insidePhone?.startsWith('+971') || insidePhone === '+971') {
       toast({
-        title: 'Error',
-        description: 'Please enter a valid UAE phone number',
-        position: 'top',
-        status: 'error',
-        duration: 10000,
-        isClosable: true,
+        description: t('registration.valid_uae_number_required'),
       })
       setIsUpdatingPhoneLoading(false)
       return
@@ -101,12 +100,7 @@ export default function RegistrationFinish({
     } catch (error: any) {
       if (error.response) {
         toast({
-          title: 'Error',
           description: error.response.data.message,
-          position: 'top',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
         })
       }
     } finally {
@@ -122,12 +116,7 @@ export default function RegistrationFinish({
     } catch (error: any) {
       if (error.response) {
         toast({
-          title: 'Error',
           description: error.response.data.message,
-          position: 'top',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
         })
       }
     } finally {
@@ -141,7 +130,7 @@ export default function RegistrationFinish({
     setInsidePhone('')
     setUser(null)
     onClose()
-    router.push('/login')
+    router.push(`${process.env.NEXT_PUBLIC_APP_URL}`)
   }
 
   useEffect(() => {
@@ -178,7 +167,7 @@ export default function RegistrationFinish({
           )}
           <CheckCircleIcon color='secondary' boxSize={{ base: 28 }} />
           <Heading as='h2' fontSize='6xl' fontWeight='semibold' py={4}>
-            Congratulation
+            {t('registration.congratulation')}
           </Heading>
           <Heading
             as='h4'
@@ -187,13 +176,13 @@ export default function RegistrationFinish({
             textAlign='center'
             color='primary'
           >
-            Your Account has been Created
+            {t('registration.account_created')}
           </Heading>
 
           {isCodeSent && !isPhoneVerified ? (
             <Flex alignItems='center' flexDirection='column' mb={4}>
               <Text as='p' fontSize='lg' py={4}>
-                A code has been sent to your phone, please enter it below
+                {t('registration.phone_code_sent')}
               </Text>
               <HStack position='relative'>
                 <PinInput
@@ -222,7 +211,7 @@ export default function RegistrationFinish({
             !isPhoneVerified && (
               <Box mt={8} textAlign='center'>
                 <Text as='p' fontSize='lg'>
-                  To verify your phone number, click the next button
+                  {t('registration.verify_phone')}
                 </Text>
                 <Button
                   onClick={sendPhoneVerificationCode}
@@ -233,7 +222,7 @@ export default function RegistrationFinish({
                   variant='primary'
                   rounded='3xl'
                 >
-                  Send Code
+                  {tc('send_code')}
                 </Button>
               </Box>
             )
@@ -243,7 +232,7 @@ export default function RegistrationFinish({
               <HStack w='100%' justifyContent='center'>
                 <CheckIcon color='green' boxSize={{ base: 8 }} />
                 <Text as='p' fontSize='lg'>
-                  Your phone number has been verified
+                  {t('registration.phone_has_verified')}
                 </Text>
               </HStack>
               <Box
@@ -254,12 +243,11 @@ export default function RegistrationFinish({
                 rounded='2xl'
               >
                 <Text as='p' fontSize='lg'>
-                  A link has been sent to your email, please click on it to
-                  verify your email
+                  {t('registration.link_email_sent')}
                 </Text>
               </Box>
               <HStack my={2} spacing={2} w='100%' justifyContent='center'>
-                <Text as='p'>You will be redirected to login page in </Text>
+                <Text as='p'>{t('registration.redirect_to_login')}</Text>
                 <Countdown
                   date={Date.now() + 15000}
                   renderer={({ seconds }) => (
@@ -269,7 +257,7 @@ export default function RegistrationFinish({
                   )}
                   onComplete={closeModalHandler}
                 />
-                <Text as='p'> seconds</Text>
+                <Text as='p'> {t('registration.seconds')}</Text>
               </HStack>
             </Box>
           )}
@@ -281,16 +269,16 @@ export default function RegistrationFinish({
             alignItems='center'
             justifyContent='center'
           >
-            <Text py={4}>
-              If you want to change the primary phone number before verification
-            </Text>
+            <Text py={4}>{t('registration.change_phone')}</Text>
             <HStack>
               <PhoneInput
-                placeholder='Enter phone number'
+                placeholder={t('registration.enter_phone')}
                 international
                 defaultCountry='AE'
                 countryCallingCodeEditable={false}
                 initialValueFormat='national'
+                className={locale === 'ar' ? 'phone-input' : ''}
+                style={{ direction: locale === 'ar' ? 'rtl' : 'ltr' }}
                 value={user.phone}
                 onChange={setInsidePhone}
                 inputComponent={Input}
@@ -305,7 +293,7 @@ export default function RegistrationFinish({
                 variant='primary'
                 rounded='3xl'
               >
-                Send Code
+                {tc('send_code')}
               </Button>
             </HStack>
           </ModalFooter>

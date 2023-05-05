@@ -14,16 +14,16 @@ import {
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
+import { useTranslation } from 'next-i18next'
 import { FacebookIcon, LinkedinIcon, TwitterIcon } from '../icons'
 
 export interface ITeamMemberCardProps {}
 
-const par = `Professor of Law Sadat University in Egypt - Doctorate in Law
-Specializing in Commercial Law from the Faculty of Law Menoufia
-Univesity in Egypt...`
-
 export default function TeamMemberCard(props: ITeamMemberCardProps) {
-  const router = useRouter()
+  const { t } = useTranslation('team')
+  const { t: tc } = useTranslation('common')
+  const par = t('team.member.1.content')
+
   return (
     <Card boxShadow='lg' width={96}>
       <CardBody alignItems='center' display='flex' flexDirection='column'>
@@ -41,7 +41,7 @@ export default function TeamMemberCard(props: ITeamMemberCardProps) {
             fontWeight='bold'
             textAlign='center'
           >
-            Legal Accountant. Ahmed Al-Agbari
+            {t('team.member.1.name')}
           </Text>
           <Text as='p' fontSize='md' height={20}>
             {par.length > 200 ? par.slice(0, 200) + '...' : par}
@@ -82,7 +82,7 @@ export default function TeamMemberCard(props: ITeamMemberCardProps) {
             color='secondary'
             size='sm'
           >
-            Read More
+            {tc('read_more')}
           </Link>
         </Flex>
       </CardFooter>

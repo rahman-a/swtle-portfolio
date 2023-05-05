@@ -7,7 +7,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react'
-import * as React from 'react'
+import { useTranslation } from 'next-i18next'
 import CTA from './Header/CTA'
 import Video from './Videos'
 import { PlayIcon } from '../icons'
@@ -17,17 +17,27 @@ interface IMainHeroSectionProps {
   isStatistics?: boolean
 }
 
-const stats = [
-  { id: 1, label: 'Transactions', value: '60.000+' },
-  { id: 2, label: 'Members', value: '75K+' },
-  { id: 3, label: 'Current Payments', value: '1.7M+', currency: 'aed' },
-  { id: 4, label: 'Payments Settled', value: '2.4M+', currency: 'aed' },
-]
-
 export default function MainHeroSection({
   isStatistics,
 }: IMainHeroSectionProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { t: tHome } = useTranslation('home')
+  const stats = [
+    { id: 1, label: tHome('hero.stats.transactions'), value: '60.000+' },
+    { id: 2, label: tHome('hero.stats.member'), value: '75K+' },
+    {
+      id: 3,
+      label: tHome('hero.stats.current_payments'),
+      value: '1.7M+',
+      currency: 'aed',
+    },
+    {
+      id: 4,
+      label: tHome('hero.stats.settled_payments'),
+      value: '2.4M+',
+      currency: 'aed',
+    },
+  ]
   return (
     <>
       <Video isOpen={isOpen} onClose={onClose} />
@@ -63,11 +73,12 @@ export default function MainHeroSection({
                 as='h1'
                 color='white'
                 fontWeight='bold'
+                textAlign='center'
                 fontSize={{ base: '25px', md: '40px', lg: '60px' }}
               >
-                Get Paid Faster with &nbsp;
+                {tHome('hero.title')} &nbsp;
                 <Text as='span' color='secondary' textDecoration='underline'>
-                  SWTLE
+                  {tHome('hero.swtle')}
                 </Text>
               </Text>
               <Text
@@ -77,8 +88,7 @@ export default function MainHeroSection({
                 width={{ base: '80%', md: '100%' }}
                 fontSize={{ base: '16px', md: '18px', lg: '20px' }}
               >
-                We make it easy for you to get the most out of your electronic
-                transactions - Fast and Efficient.
+                {tHome('hero.subtitle')}
               </Text>
               <HStack spacing={3}>
                 <Button
@@ -88,10 +98,10 @@ export default function MainHeroSection({
                   borderRadius='5rem'
                   onClick={onOpen}
                 >
-                  Watch Video
+                  {tHome('hero.video_btn')}
                   <PlayIcon width='1.5rem' height='1.5rem' />
                 </Button>
-                <CTA label='Get Started' isHerSection />
+                <CTA label={tHome('hero.cta')} />
               </HStack>
             </VStack>
             {isStatistics && (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useRef, Component } from 'react'
 import {
   Flex,
   FormControl,
@@ -10,8 +10,13 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
-import type { IRegistrationProps } from '../../context/types/Registration-types'
+import PhoneInput, {
+  DefaultInputComponentProps,
+  Props,
+} from 'react-phone-number-input'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import type { IRegistrationProps } from '../../types/Registration-types'
 import { useFormContext, Controller, useFieldArray } from 'react-hook-form'
 import { MinusCircleIcon, PlusCircleIcon } from '@/src/icons'
 interface IPhonesFormProps {
@@ -20,10 +25,9 @@ interface IPhonesFormProps {
 
 export default function PhonesForm({ isVisible }: IPhonesFormProps) {
   const [phoneError, setPhoneError] = useState<{ [key: number]: string }>({})
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<IRegistrationProps>()
+  const { control } = useFormContext<IRegistrationProps>()
+  const { t } = useTranslation('registration')
+  const { locale } = useRouter()
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'insidePhones',
@@ -55,23 +59,25 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
               key={field.id}
               isInvalid={Object.keys(phoneError).includes(index.toString())}
             >
-              <FormLabel>Phone Number inside UAE</FormLabel>
+              <FormLabel>{t('registration.phone_uae')}</FormLabel>
               <Controller
                 name={`insidePhones.${index}`}
                 control={control}
                 render={({ field: { value, onChange } }) => (
                   <PhoneInput
-                    placeholder='Enter phone number'
+                    placeholder={`${t('registration.phone_placeholder')}`}
                     international
                     defaultCountry='AE'
+                    style={{ direction: locale === 'ar' ? 'rtl' : 'ltr' }}
                     countryCallingCodeEditable={false}
                     initialValueFormat='national'
+                    className={locale === 'ar' ? 'phone-input' : ''}
                     value={value.phone}
                     onChange={(value) => {
                       if (!value?.startsWith('+971') || value === '+971') {
                         setPhoneError({
                           ...phoneError,
-                          [index]: 'Please enter a valid UAE phone number',
+                          [index]: t('registration.valid_uae_number_required'),
                         })
                         return onChange({
                           phone: value,
@@ -91,7 +97,7 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
             </FormControl>
             {index > 0 && (
               <IconButton
-                aria-label='remove the last Phone number'
+                aria-label={`${t('registration.phone_remove')}`}
                 variant='ghost'
                 onClick={() => remove(index)}
                 icon={<MinusCircleIcon color='gray.600' />}
@@ -103,7 +109,7 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
       {fields.length < 3 && (
         <Flex justifyContent='flex-end' width='100%' mt={2}>
           <IconButton
-            aria-label='add another Phone number'
+            aria-label={`${t('registration.phone_add')}`}
             variant='ghost'
             onClick={() => append({ phone: '', isPrimary: false })}
             icon={<PlusCircleIcon color='gray.600' />}
@@ -115,16 +121,18 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
         {outSidesFields.map((field, index) => (
           <HStack key={field.id} width='100%' alignItems='flex-end'>
             <FormControl key={field.id}>
-              <FormLabel>Phone Number outside UAE</FormLabel>
+              <FormLabel>{t('registration.phone_outside')}</FormLabel>
               <Controller
                 name={`outsidePhones.${index}`}
                 control={control}
                 render={({ field: { value, onChange } }) => (
                   <PhoneInput
-                    placeholder='Enter phone number'
+                    placeholder={`${t('registration.enter_phone')}`}
                     international
                     countryCallingCodeEditable={false}
                     initialValueFormat='national'
+                    className={locale === 'ar' ? 'phone-input' : ''}
+                    style={{ direction: locale === 'ar' ? 'rtl' : 'ltr' }}
                     value={value.phone}
                     onChange={(value) => onChange({ phone: value })}
                     inputComponent={Input}
@@ -134,7 +142,7 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
             </FormControl>
             {index > 0 && (
               <IconButton
-                aria-label='remove the last Phone number'
+                aria-label={`${t('registration.phone_remove')}`}
                 variant='ghost'
                 onClick={() => removeField(index)}
                 icon={<MinusCircleIcon color='gray.600' />}
@@ -146,7 +154,7 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
       {fields.length < 3 && (
         <Flex justifyContent='flex-end' width='100%' mt={2}>
           <IconButton
-            aria-label='add another Phone number'
+            aria-label={`${t('registration.phone_add')}`}
             variant='ghost'
             onClick={() => add({ phone: '' })}
             icon={<PlusCircleIcon color='gray.600' />}

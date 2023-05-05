@@ -10,67 +10,63 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { HeroSection, WorkStep } from '../components'
 import { NextSeo } from 'next-seo'
-
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 export interface IHowItWorksProps {}
-
-const steps = [
-  {
-    id: 1,
-    title: 'Online Debt Verification',
-    description:
-      'The creditor must prove the debt maturity electronically on the website by mentioning the amount of debt and the maturity date.',
-    image: '/images/steps/work-step-1.png',
-  },
-  {
-    id: 2,
-    title: 'Debtor Accept',
-    description: 'The debtor must accept the process of proving debt maturity.',
-    image: '/images/steps/work-step-2.png',
-  },
-  {
-    id: 3,
-    title: 'Negotiation in Case of Delay',
-    description:
-      'In case of delaying maturity date, debtor and creditor negotiate with each other creditor can edit the maturity date.',
-    image: '/images/steps/work-step-3.png',
-  },
-  {
-    id: 4,
-    title: 'Swtle Send Reminders',
-    description:
-      'The website sends reminders to the debtor when approaching the maturity date.',
-    image: '/images/steps/work-step-4.png',
-  },
-  {
-    id: 5,
-    title: 'Prove Payment Electronically',
-    description:
-      'If the debtor paid off his dept, the creditor would prove it electronically.',
-    image: '/images/steps/work-step-5.png',
-  },
-  {
-    id: 6,
-    title: 'Late payment consequences',
-    description:
-      'If the debtor does not pay on time, his account will be blocked And his credit rating will be downgraded; moreover the site will pay a 10% fine on the amount due.',
-    image: '/images/steps/work-step-6.png',
-  },
-  {
-    id: 7,
-    title: 'Debt collection actions',
-    description:
-      'Our team will contact the debtor to pay it off if he insists on not paying, our team will take legal procedures against him also and he will bear all the costs of the legal procedures.',
-    image: '/images/steps/work-step-7.png',
-  },
-]
 
 export default function HowItWorks(props: IHowItWorksProps) {
   const [timeLineHeight, setTimeLineHeight] = useState(0)
   const [indicatorOffset, setIndicatorOffset] = useState(0)
+  const { t } = useTranslation('how-it-works')
+  const { t: tn } = useTranslation('navigation')
   const timeLineRef = useRef<HTMLDivElement>(null)
   const timeLineSectionRef = useRef<HTMLDivElement>(null)
   const [isSmallerThan480] = useMediaQuery('(max-width:  480px)')
-
+  const steps = [
+    {
+      id: 1,
+      title: t('works.step.1.title'),
+      description: t('works.step.1.content'),
+      image: '/images/steps/work-step-1.png',
+    },
+    {
+      id: 2,
+      title: t('works.step.2.title'),
+      description: t('works.step.2.content'),
+      image: '/images/steps/work-step-2.png',
+    },
+    {
+      id: 3,
+      title: t('works.step.3.title'),
+      description: t('works.step.3.content'),
+      image: '/images/steps/work-step-3.png',
+    },
+    {
+      id: 4,
+      title: t('works.step.4.title'),
+      description: t('works.step.4.content'),
+      image: '/images/steps/work-step-4.png',
+    },
+    {
+      id: 5,
+      title: t('works.step.5.title'),
+      description: t('works.step.5.content'),
+      image: '/images/steps/work-step-5.png',
+    },
+    {
+      id: 6,
+      title: t('works.step.6.title'),
+      description: t('works.step.6.content'),
+      image: '/images/steps/work-step-6.png',
+    },
+    {
+      id: 7,
+      title: t('works.step.7.title'),
+      description: t('works.step.7.content'),
+      image: '/images/steps/work-step-7.png',
+    },
+  ]
   const indicatorOffsetHandler = () => {
     const stepsNumber = steps.length
     const offset = timeLineHeight / stepsNumber
@@ -95,7 +91,7 @@ export default function HowItWorks(props: IHowItWorksProps) {
           md: '/images/how-it-works-md.png',
           xl: '/images/how-it-works.png',
         }}
-        title='How it Works?'
+        title={tn('how_it_works')}
       />
       <Container minW='95%'>
         <Text
@@ -103,8 +99,7 @@ export default function HowItWorks(props: IHowItWorksProps) {
           fontSize={{ base: '2xl', md: '3xl', xl: '4xl' }}
           width={{ base: '95%', md: '60%' }}
         >
-          We&apos;re here to help you understand the process of proving debt
-          maturity on our website...
+          {t('works.header')}
         </Text>
         <Flex
           py={32}
@@ -115,7 +110,7 @@ export default function HowItWorks(props: IHowItWorksProps) {
           position='relative'
         >
           <Text as='p' width='fit-content' fontWeight='bold' fontSize='3xl'>
-            Work Strategy
+            {t('works.strategy')}
           </Text>
           <HStack
             ref={timeLineRef}
@@ -162,4 +157,17 @@ export default function HowItWorks(props: IHowItWorksProps) {
       </Container>
     </>
   )
+}
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'how-it-works',
+        'footer',
+      ])),
+    },
+  }
 }

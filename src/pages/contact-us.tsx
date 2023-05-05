@@ -15,10 +15,14 @@ import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 import NextLink from 'next/link'
 import { LocationIcon } from '../icons'
 import Image from 'next/image'
-
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 interface IContactUsProps {}
 
 export default function ContactUs(props: IContactUsProps) {
+  const { t } = useTranslation('contact')
+  const { t: tf } = useTranslation('footer')
   return (
     <>
       <NextSeo title='Swtle | Contact Us' />
@@ -29,22 +33,21 @@ export default function ContactUs(props: IContactUsProps) {
           xl: './images/contact-us.png',
         }}
         position={{ base: 'inherit', md: 'center' }}
-        title='Contact Us'
+        title={t('contact')}
       />
       <Container minW='95%' mb='14'>
         <Flex flexDirection={{ base: 'column', lg: 'row' }} gap={{ base: 20 }}>
           <VStack alignItems='flex-start' spacing={4}>
             <Text as='h2' fontSize='3xl'>
-              We would love to hear from you...
+              {t('contact.header')}
             </Text>
             <Text as='p' fontSize='xl'>
-              We’ll get back to you as soon as possible.
+              {t('contact.subheader')}
             </Text>
             <List spacing={6} py={4}>
               <ListItem>
                 <ListIcon as={LocationIcon} color='secondary' />
-                United Arab Emirates, Dubai, Deira, Al Maktoum Road, M M Tower
-                office no. 303
+                {tf('footer.location')}
               </ListItem>
               <ListItem>
                 <ListIcon as={PhoneIcon} color='secondary' />
@@ -52,7 +55,7 @@ export default function ContactUs(props: IContactUsProps) {
               </ListItem>
               <ListItem>
                 <ListIcon as={EmailIcon} color='secondary' />
-                Email:
+                {t('contact.email')} : &nbsp;
                 <Link as={NextLink} href='mailto:info@swtle.com'>
                   info@swtle.com
                 </Link>
@@ -73,4 +76,17 @@ export default function ContactUs(props: IContactUsProps) {
       </Container>
     </>
   )
+}
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'contact',
+        'footer',
+      ])),
+    },
+  }
 }

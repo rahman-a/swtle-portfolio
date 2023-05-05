@@ -1,4 +1,4 @@
-import { ElementType, RefObject, forwardRef } from 'react'
+import { RefObject, forwardRef } from 'react'
 import {
   Drawer,
   DrawerBody,
@@ -11,6 +11,7 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import Language from './Language'
 import Navigation from './Navigation'
 import CTA from './CTA'
@@ -23,10 +24,12 @@ interface IDrawerProps {
 const DrawerComponent = forwardRef<HTMLButtonElement, IDrawerProps>(
   ({ isOpen, onClose }, ref) => {
     const router = useRouter()
+    const locale = router.locale
+    const { t } = useTranslation('common')
     return (
       <Drawer
         isOpen={isOpen}
-        placement='right'
+        placement={locale === 'ar' ? 'left' : 'right'}
         onClose={onClose}
         finalFocusRef={ref as RefObject<HTMLButtonElement>}
       >
@@ -34,19 +37,27 @@ const DrawerComponent = forwardRef<HTMLButtonElement, IDrawerProps>(
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>
-            <HStack spacing={2} alignItems={'flex-start'}>
+            <HStack
+              spacing={2}
+              w='100%'
+              justifyContent={locale === 'ar' ? 'flex-end' : 'flex-start'}
+            >
               <Language />
             </HStack>
           </DrawerHeader>
           <DrawerBody p='0'>
             <Navigation isOpen={isOpen} onClose={onClose} />
             {router.asPath !== '/login' && router.asPath !== '/register' && (
-              <CTA label='Try Swtle Today' isOpen={isOpen} onClose={onClose} />
+              <CTA
+                label={t('try_swtle_today')}
+                isOpen={isOpen}
+                onClose={onClose}
+              />
             )}
           </DrawerBody>
           <DrawerFooter>
             <Button size='md' variant='outline' mr={3} onClick={onClose}>
-              Close
+              {t('close')}
             </Button>
           </DrawerFooter>
         </DrawerContent>

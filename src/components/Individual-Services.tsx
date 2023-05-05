@@ -2,36 +2,38 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import ServiceCardTab from './Service-Card'
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { PlantIcon, RiseIcon, HandShakeIcon } from '@icons'
+import { useTranslation } from 'next-i18next'
 import TextImageSection from './Text-Image-Section'
 
 interface IndividualServicesProps {}
 
 export default function IndividualServices(props: IndividualServicesProps) {
+  const { t } = useTranslation('services')
   return (
     <Tabs isFitted>
       <TabList gap={4} flexDirection={{ base: 'column', md: 'row' }}>
         <ServiceCardTab
-          title='Proving finance transactions and setting reminders of payment dates'
+          title={t('services.individual.service.1.title')}
           icon={<CheckCircleIcon boxSize={{ base: '2rem', lg: '4rem' }} />}
         />
         <ServiceCardTab
-          title='Save the Environment with Electronic Invoices'
+          title={t('services.individual.service.2.title')}
           icon={<PlantIcon boxSize={{ base: '2rem', lg: '4rem' }} />}
         />
         <ServiceCardTab
-          title='Providing credit indicators'
+          title={t('services.individual.service.3.title')}
           icon={<RiseIcon boxSize={{ base: '2rem', lg: '4rem' }} />}
         />
         <ServiceCardTab
-          title='Helping in Making a Suitable Decisions'
+          title={t('services.individual.service.4.title')}
           icon={<HandShakeIcon boxSize={{ base: '2rem', lg: '4rem' }} />}
         />
       </TabList>
       <TabPanels>
         <TabPanel>
           <TextImageSection
-            title='Proving finance transactions and setting reminders of payment dates'
-            description={`Our platform provides a secure way to prove your financial transactions from debts, electronic bills, securities, or physical rights. With the latest technological methods, you can track your debts locally and internationally, ensuring protection and tracking of your funds. We also make sure to pay you on time without any additional fees or bargaining, even if the debtor changes its place of residence.`}
+            title={`${t('services.individual.service.1.title')}`}
+            description={`${t('services.individual.service.1.content')}`}
             sectionImage={{
               image: '/images/service-card.png',
             }}
@@ -42,8 +44,8 @@ export default function IndividualServices(props: IndividualServicesProps) {
         </TabPanel>
         <TabPanel>
           <TextImageSection
-            title='Proving finance transactions and setting reminders of payment dates'
-            description={`Our platform provides a secure way to prove your financial transactions from debts, electronic bills, securities, or physical rights. With the latest technological methods, you can track your debts locally and internationally, ensuring protection and tracking of your funds. We also make sure to pay you on time without any additional fees or bargaining, even if the debtor changes its place of residence.`}
+            title={`${t('services.individual.service.2.title')}`}
+            description={`${t('services.individual.service.2.content')}`}
             sectionImage={{
               image: '/images/service-card.png',
             }}
@@ -54,8 +56,8 @@ export default function IndividualServices(props: IndividualServicesProps) {
         </TabPanel>
         <TabPanel>
           <TextImageSection
-            title='Proving finance transactions and setting reminders of payment dates'
-            description={`Our platform provides a secure way to prove your financial transactions from debts, electronic bills, securities, or physical rights. With the latest technological methods, you can track your debts locally and internationally, ensuring protection and tracking of your funds. We also make sure to pay you on time without any additional fees or bargaining, even if the debtor changes its place of residence.`}
+            title={`${t('services.individual.service.3.title')}`}
+            description={`${t('services.individual.service.3.content')}`}
             sectionImage={{
               image: '/images/service-card.png',
             }}
@@ -66,8 +68,8 @@ export default function IndividualServices(props: IndividualServicesProps) {
         </TabPanel>
         <TabPanel>
           <TextImageSection
-            title='Proving finance transactions and setting reminders of payment dates'
-            description={`Our platform provides a secure way to prove your financial transactions from debts, electronic bills, securities, or physical rights. With the latest technological methods, you can track your debts locally and internationally, ensuring protection and tracking of your funds. We also make sure to pay you on time without any additional fees or bargaining, even if the debtor changes its place of residence.`}
+            title={`${t('services.individual.service.4.title')}`}
+            description={`${t('services.individual.service.4.content')}`}
             sectionImage={{
               image: '/images/service-card.png',
             }}

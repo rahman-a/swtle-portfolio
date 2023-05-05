@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import { Flex, VStack, Text, Link, Box } from '@chakra-ui/react'
 import * as React from 'react'
+import { useTranslation } from 'next-i18next'
 
 interface IFeatureCardProps {
   title: string
@@ -14,6 +16,8 @@ export default function FeatureCard({
   description,
   image,
 }: IFeatureCardProps) {
+  const { t } = useTranslation('common')
+  const { locale } = useRouter()
   return (
     <Flex
       gap={8}
@@ -36,9 +40,9 @@ export default function FeatureCard({
             ? description.substring(0, 250) + ' . . . .'
             : description}
         </Text>
-        <Box textAlign='right' w='100%'>
+        <Box textAlign={locale === 'ar' ? 'left' : 'right'} w='100%'>
           <Link as={NextLink} href='#' color='secondary'>
-            Read More...
+            {t('read_more')}
           </Link>
         </Box>
       </VStack>

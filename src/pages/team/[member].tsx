@@ -13,10 +13,15 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 import { FacebookIcon, LinkedinIcon, TwitterIcon } from '@/src/icons'
 import { NextSeo } from 'next-seo'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 
 interface ITeamProps {}
 
 export default function Team(props: ITeamProps) {
+  const { t } = useTranslation('team')
+  const { t: tn } = useTranslation('navigation')
   return (
     <>
       <NextSeo title='Swtle | Dr. Abdulrahim Madi' />
@@ -26,7 +31,7 @@ export default function Team(props: ITeamProps) {
           md: '/images/team-md.png',
           xl: '/images/team.png',
         }}
-        title='Our Team'
+        title={tn('our_team')}
       />
       <Container minW='95%' py={14}>
         <Flex
@@ -49,7 +54,7 @@ export default function Team(props: ITeamProps) {
               textAlign='center'
               fontSize={{ base: 'xl', md: '2xl', xl: '4xl' }}
             >
-              Dr. Abdulrahim Madi
+              {t('team.member.1.name')}
             </Text>
             <HStack spacing={4}>
               <Link
@@ -84,8 +89,7 @@ export default function Team(props: ITeamProps) {
             width={{ base: '100%', md: '70%' }}
           >
             <Text as='p' maxWidth='40rem'>
-              Assistant Professor of Law Faculty Kind Saud University Doctorate
-              in private law Faculty of Law University of Menoufia, Egypt...
+              {t('team.member.1.content')}
             </Text>
             <Box>
               <Text as='h3' color='secondary'>
@@ -122,4 +126,28 @@ export default function Team(props: ITeamProps) {
       </Container>
     </>
   )
+}
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { member: 'ahmed-al-agbari' }, locale: 'en' },
+      { params: { member: 'ahmed-al-agbari' }, locale: 'ar' },
+    ],
+    fallback: false,
+  }
+}
+
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'team',
+        'footer',
+      ])),
+    },
+  }
 }

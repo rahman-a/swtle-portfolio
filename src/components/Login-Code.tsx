@@ -1,82 +1,116 @@
+import { useEffect, useRef, useState } from 'react'
 import {
-  Button,
-  FormControl,
-  FormErrorMessage,
+  Box,
   HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
+  PinInput,
+  PinInputField,
+  Spinner,
   Text,
 } from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
-import * as React from 'react'
-import { LoginCodeIcon } from '../icons'
+import Countdown, { zeroPad } from 'react-countdown'
 
 interface ILoginCodeProps {
-  verifyLoginCodeHandler: (data: { code: string }) => void
+  verifyLoginCodeHandler: (code: string) => void
+  sendLoginCodeHandler: () => Promise<void>
+  verifyLoginCodeLoading: boolean
 }
+let CounterDate: number = 119000
 
-export default function LoginCode({ verifyLoginCodeHandler }: ILoginCodeProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      code: '',
-    },
-  })
+export default function LoginCode({
+  verifyLoginCodeHandler,
+  sendLoginCodeHandler,
+  verifyLoginCodeLoading,
+}: ILoginCodeProps) {
+  const pinInputRef = useRef<HTMLInputElement>(null)
+  const [stopCounter, setStopCounter] = useState<boolean>(false)
+  const counterRef = useRef<Countdown>(null)
+
+  useEffect(() => {
+    pinInputRef.current?.focus()
+  }, [])
+
+  useEffect(() => {
+    let stopCounterInterval: NodeJS.Timeout | undefined
+    if (stopCounter && counterRef.current) {
+      counterRef.current.pause()
+      stopCounterInterval = setTimeout(() => {
+        setStopCounter(false)
+        clearTimeout(stopCounterInterval)
+      }, 5000)
+    } else {
+      counterRef.current?.start()
+    }
+    return () => clearTimeout(stopCounterInterval)
+  }, [stopCounter])
 
   return (
-    <>
-      <Text as='h2' mb='5' fontSize={{ base: '2xl', md: '3xl', xl: '4xl' }}>
-        Login Code
+    <Box>
+      <Text as='h2' mb='5' fontSize={{ base: '2xl', md: '3xl' }}>
+        Type your login code
       </Text>
-      <form
-        style={{ width: '100%', margin: 0 }}
-        onSubmit={handleSubmit(verifyLoginCodeHandler)}
-        noValidate
-      >
-        <FormControl
-          isRequired
-          id='code'
-          isInvalid={!!errors.code?.message}
-          mb='5'
+      <HStack w='100%' m='0' position='relative'>
+        <PinInput
+          type='alphanumeric'
+          variant='filled'
+          focusBorderColor='teal.500'
+          size={{ base: 'md', sm: 'lg' }}
+          onComplete={(code) => {
+            CounterDate = 119000
+            verifyLoginCodeHandler(code)
+          }}
+          onChange={() => setStopCounter(true)}
+          isDisabled={verifyLoginCodeLoading}
         >
-          <InputGroup>
-            <InputLeftElement pointerEvents='none'>
-              <LoginCodeIcon color='gray.300' width='1.2rem' height='1.2rem' />
-            </InputLeftElement>
-            <Input
-              type='text'
-              size='lg'
-              placeholder='Please enter 7-characters login code'
-              {...register('code', {
-                required: 'Please enter 7-characters login code',
-                minLength: {
-                  value: 7,
-                  message: 'Login code must be 7 characters long',
-                },
-              })}
-            />
-          </InputGroup>
-          {errors.code?.message && (
-            <FormErrorMessage>{errors.code?.message}</FormErrorMessage>
-          )}
-        </FormControl>
-        <HStack mt={8} width='100%' justifyContent='center'>
-          <Button
-            width='50%'
-            type='submit'
-            bg='primary'
-            color='white'
-            _hover={{ bg: 'secondary' }}
-            borderRadius='5rem'
-          >
-            Verify
-          </Button>
+          <PinInputField ref={pinInputRef} />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+          <PinInputField />
+        </PinInput>
+        <Spinner
+          color='gray.500'
+          position='absolute'
+          left='50%'
+          transform='translateX(-50%)'
+          display={verifyLoginCodeLoading ? 'block' : 'none'}
+        />
+      </HStack>
+      {!verifyLoginCodeLoading && (
+        <HStack
+          my={4}
+          spacing={2}
+          flexWrap='wrap'
+          w='100%'
+          justifyContent='center'
+        >
+          <Text as='p' fontSize={{ base: 'sm' }}>
+            Login code will be sent again in
+          </Text>
+          <Countdown
+            date={Date.now() + CounterDate}
+            ref={counterRef}
+            onPause={(date) => {
+              CounterDate = date.total
+            }}
+            renderer={({ seconds, minutes }) => {
+              return (
+                <Text as='span' fontWeight='bold' color='red.700'>
+                  {zeroPad(minutes) + ':' + zeroPad(seconds)}
+                </Text>
+              )
+            }}
+            onComplete={async () => {
+              CounterDate = 119000
+              await sendLoginCodeHandler()
+            }}
+          />
+          <Text as='p' fontSize={{ base: 'sm' }}>
+            seconds in case you didn&apos;t receive one
+          </Text>
         </HStack>
-      </form>
-    </>
+      )}
+    </Box>
   )
 }

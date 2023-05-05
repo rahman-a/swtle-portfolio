@@ -9,10 +9,14 @@ import {
 } from '@chakra-ui/react'
 import { HeroSection, TextImageSection } from '@components'
 import { NextSeo } from 'next-seo'
-
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from 'next'
 interface IAboutUsProps {}
 
 export default function AboutUs(props: IAboutUsProps) {
+  const { t } = useTranslation('about-us')
+  const { t: tn } = useTranslation('navigation')
   return (
     <>
       <NextSeo title='Swtle | About Us' />
@@ -22,15 +26,13 @@ export default function AboutUs(props: IAboutUsProps) {
           md: './images/about-us-md.png',
           xl: './images/about-us.png',
         }}
-        title='About Us'
+        title={tn('about_us')}
       />
       <Container minW='95%'>
         <TextImageSection
-          header='About Swtle'
-          title={
-            'Simplify Your Financial Transactions with Swtle Your Trusted Legal Electronic Complex'
-          }
-          description={`Swtle is an electronic-transaction complex, licensed by the department of economics and tourism in Dubai and authorized by the telecommunications and digital government regulatory authority, used to prove forward sales, advanced payments and electronic invoices, Thus, we help save the environment and make data accessibility fast and effiecient anytime and anywhere.`}
+          header={`${t('about.header')}`}
+          title={`${t('about.title')}`}
+          description={`${t('about.content')}`}
           verticalLine={{
             color: 'variation',
             width: 4,
@@ -46,11 +48,11 @@ export default function AboutUs(props: IAboutUsProps) {
           list={[
             {
               id: 1,
-              text: `Swtle notifies you of payment dates and gives instant updates on what you have and owe.`,
+              text: t('about.point.1'),
             },
             {
               id: 2,
-              text: `Swtle takes responsibility for all measurements so you can get your money on time without incurring any fees or collection charges.`,
+              text: t('about.point.2'),
             },
           ]}
         />
@@ -69,31 +71,31 @@ export default function AboutUs(props: IAboutUsProps) {
               fontSize={{ base: 'sm', lg: 'lg' }}
               _hover={{ color: 'primary' }}
             >
-              Philosophy
+              {t('about.philosophy.header')}
             </Tab>
             <Tab
               fontSize={{ base: 'sm', lg: 'lg' }}
               _hover={{ color: 'primary' }}
             >
-              Values
+              {t('about.values.header')}
             </Tab>
             <Tab
               fontSize={{ base: 'sm', lg: 'lg' }}
               _hover={{ color: 'primary' }}
             >
-              Vision
+              {t('about.vision.header')}
             </Tab>
             <Tab
               fontSize={{ base: 'sm', lg: 'lg' }}
               _hover={{ color: 'primary' }}
             >
-              Mission
+              {t('about.mission.header')}
             </Tab>
             <Tab
               fontSize={{ base: 'sm', lg: 'lg' }}
               _hover={{ color: 'primary' }}
             >
-              Goals
+              {t('about.goals.header')}
             </Tab>
           </TabList>
           <TabIndicator
@@ -106,9 +108,9 @@ export default function AboutUs(props: IAboutUsProps) {
             {[...Array(5)].map((_, i) => (
               <TabPanel key={i}>
                 <TextImageSection
-                  header='Our Philosophy'
+                  header={`${t('about.philosophy.title')}`}
                   isSubHeaderLine={true}
-                  description={`Harnessing our expertise to provide accurate financial data, undertaking all debt recovery and financial tasks on behalf of creditors, and following them up to find the most convenient solutions to help them enjoy life without worrying about the accumulated debt or incurring any payment fees or commissions.`}
+                  description={`${t('about.philosophy.content')}`}
                   descriptionFontSize={{
                     base: 'md',
                     xl: 'lg',
@@ -126,4 +128,17 @@ export default function AboutUs(props: IAboutUsProps) {
       </Container>
     </>
   )
+}
+export const getStaticProps = async ({ locale }: GetStaticPropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale!, [
+        'common',
+        'home',
+        'navigation',
+        'about-us',
+        'footer',
+      ])),
+    },
+  }
 }

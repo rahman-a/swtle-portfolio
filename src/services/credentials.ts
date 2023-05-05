@@ -2,7 +2,7 @@ import service from './service'
 import type {
   IRegistrationProps,
   IFDataExisted,
-} from '../context/types/Registration-types'
+} from '../types/Registration-types'
 
 const userAPI = {
   registerUser(data: IRegistrationProps) {
@@ -28,6 +28,21 @@ const userAPI = {
   },
   sendVerifyEmailLink(id: string) {
     return service().get(`users/email/${id}`)
+  },
+  sendLoginCredential(data: { email: string; password: string }) {
+    return service().post('users/login', data)
+  },
+  sendLoginCode(id: string) {
+    return service().get(`users/login/code/new/${id}`)
+  },
+  verifyLoginCode(id: string, data: { code: string; isRemembered: boolean }) {
+    return service().patch(`users/login/code/verify/${id}`, data)
+  },
+  sendPasswordResetLink(email: string) {
+    return service().get(`users/password/reset?email=${email}`)
+  },
+  verifyAuthLink(data: any) {
+    return service().patch(`users/verify`, data)
   },
 }
 

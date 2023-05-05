@@ -22,7 +22,9 @@ import Image from 'next/image'
 import { useFormContext } from 'react-hook-form'
 import { useState, useRef, useCallback, useEffect } from 'react'
 import Webcam from 'react-webcam'
+import { useTranslation } from 'next-i18next'
 import { v4 as uuidV4 } from 'uuid'
+import { useRouter } from 'next/router'
 import PhotoCropper from './Crop-Photo'
 
 interface ICapturePhotoProps {
@@ -38,6 +40,9 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
   const webcamRef = useRef<Webcam>(null)
   const [url, setUrl] = useState<string | null>(null)
   const [isFileLarge, setFileLarge] = useState<boolean>(false)
+  const { locale } = useRouter()
+  const { t } = useTranslation('registration')
+  const { t: tc } = useTranslation('common')
   const toast = useToast()
   const { setValue } = useFormContext()
   const capture = useCallback(() => {
@@ -89,8 +94,8 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
   useEffect(() => {
     if (isFileLarge) {
       toast({
-        title: 'File too large',
-        description: 'Please upload a file smaller than 2MB',
+        title: t('registration.file_large'),
+        description: t('registration.file_upload_size', { size: '2MB' }),
         position: 'top',
         status: 'error',
         duration: 10000,
@@ -98,23 +103,25 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
         onCloseComplete: () => setFileLarge(false),
       })
     }
-  }, [isFileLarge, toast])
+  }, [isFileLarge, toast, t])
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size='lg'>
+    <Modal isOpen={isOpen} onClose={onClose} size='xl'>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader bg='gray.500' color='white'>
           <HStack spacing={2}>
             <PortraitIcon boxSize={6} />
             <Heading as='h4' fontSize={{ base: 'sm', md: 'md' }}>
-              Take Photo via Camera
+              {t('registration.camera_take')}
             </Heading>
           </HStack>
         </ModalHeader>
         <ModalBody px={2}>
           {!isCaptureEnable && !url && (
             <Box py={4}>
-              <Button onClick={() => setCaptureEnable(true)}>Run Camera</Button>
+              <Button onClick={() => setCaptureEnable(true)}>
+                {t('registration.camera_run')}
+              </Button>
             </Box>
           )}
           {mediaError && (
@@ -122,7 +129,7 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
               <AlertIcon />
               <AlertTitle>{mediaError}</AlertTitle>
               <AlertDescription>
-                Please Allow Access to your camera.
+                {t('registration.camera_allow_access')}
               </AlertDescription>
             </Alert>
           )}
@@ -148,10 +155,10 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
                     onClick={capture}
                     size='sm'
                   >
-                    Take Shot
+                    {t('registration.camera_shot')}
                   </Button>
                   <Button size='sm' onClick={closeCameraShot}>
-                    Close
+                    {tc('close')}
                   </Button>
                 </HStack>
               </>
@@ -160,13 +167,14 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
           {url && !isCaptureEnable && !isCropEnable && (
             <VStack spacing={4} w='100%'>
               <Button
-                leftIcon={<ArrowBackIcon />}
-                alignSelf='flex-start'
+                leftIcon={locale === 'en' ? <ArrowBackIcon /> : undefined}
+                rightIcon={locale === 'ar' ? <ArrowBackIcon /> : undefined}
+                alignSelf={locale === 'en' ? 'flex-start' : 'flex-end'}
                 onClick={() => setUrl(null)}
                 size='sm'
                 variant='ghost'
               >
-                back
+                {tc('back')}
               </Button>
               <Box position='relative' w='100%' height='315px'>
                 <Image
@@ -183,14 +191,14 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
                   colorScheme='gray'
                   onClick={() => setCropEnable(true)}
                 >
-                  Crop Photo
+                  {t('registration.camera_crop')}
                 </Button>
                 <Button
                   size='sm'
                   onClick={() => selectCurrentPhotoHandler(undefined)}
                   variant='primary'
                 >
-                  Select Photo
+                  {t('registration.camera_select_photo')}
                 </Button>
               </HStack>
             </VStack>
@@ -198,8 +206,9 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
           {isCropEnable && url && (
             <VStack>
               <Button
-                leftIcon={<ArrowBackIcon />}
-                alignSelf='flex-start'
+                leftIcon={locale === 'en' ? <ArrowBackIcon /> : undefined}
+                rightIcon={locale === 'ar' ? <ArrowBackIcon /> : undefined}
+                alignSelf={locale === 'en' ? 'flex-start' : 'flex-end'}
                 onClick={() => {
                   setCropEnable(false)
                   setUrl(null)
@@ -207,7 +216,7 @@ export default function CapturePhoto({ isOpen, onClose }: ICapturePhotoProps) {
                 size='sm'
                 variant='ghost'
               >
-                back
+                {tc('back')}
               </Button>
               <PhotoCropper
                 defaultSrc={url}

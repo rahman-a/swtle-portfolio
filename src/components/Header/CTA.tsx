@@ -16,7 +16,7 @@ export default function CTA({
 }: ICTAProps) {
   const router = useRouter()
   const CtaHandler = () => {
-    router.push('/login')
+    router.push(`${process.env.NEXT_PUBLIC_APP_URL}`)
     onClose && onClose()
   }
   return (
@@ -27,6 +27,7 @@ export default function CTA({
       }}
       onClick={CtaHandler}
       variant='primary'
+      minW='8rem'
       width={isOpen ? '90%' : 'auto'}
       margin={isOpen ? '2rem auto' : '0'}
       borderRadius={isOpen ? '1rem' : '5rem'}

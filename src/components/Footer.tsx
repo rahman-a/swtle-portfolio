@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import NextLink from 'next/link'
+import { useTranslation } from 'next-i18next'
 import { PhoneIcon } from '@chakra-ui/icons'
 import {
   LocationIcon,
@@ -23,6 +24,8 @@ import {
 interface IFooterProps {}
 
 export default function Footer(props: IFooterProps) {
+  const { t } = useTranslation('footer')
+  const { t: tn } = useTranslation('navigation')
   return (
     <footer className='footer'>
       <Container maxW='95%' mx='auto'>
@@ -43,8 +46,7 @@ export default function Footer(props: IFooterProps) {
               <HStack spacing={4}>
                 <LocationIcon />
                 <Text as='p' w={{ sm: '20rem', xl: '25rem' }}>
-                  United Arab Emirates, Dubai, Deira, Al Maktoum Road, M M Tower
-                  office no. 303
+                  {t('footer.location')}
                 </Text>
               </HStack>
               <HStack spacing={4}>
@@ -76,30 +78,30 @@ export default function Footer(props: IFooterProps) {
             </VStack>
             <VStack alignItems='flex-start' spacing={1}>
               <Link as={NextLink} href='/'>
-                Home
+                {tn('home')}
               </Link>
               <Link as={NextLink} href='/services' w='fit-content'>
-                Our Services
+                {tn('services')}
               </Link>
               <Link as={NextLink} href='/about-us'>
-                About us
+                {tn('about_us')}
               </Link>
               <Link as={NextLink} href='/contact-us'>
-                FAQs
+                {t('faqs')}
               </Link>
             </VStack>
             <VStack alignItems='flex-start' spacing={4}>
               <Link as={NextLink} href='/team'>
-                Our Team
+                {tn('our_team')}
               </Link>
               <Link as={NextLink} href='/privacy-policy'>
-                Privacy Policy
+                {t('footer.privacy')}
               </Link>
               <Link as={NextLink} href='/terms-conditions'>
-                Terms & Conditions
+                {t('footer.terms_condition')}
               </Link>
               <Link as={NextLink} href='/contact-us'>
-                Contact Us
+                {tn('contact_us')}
               </Link>
             </VStack>
           </Flex>
@@ -111,8 +113,7 @@ export default function Footer(props: IFooterProps) {
               opacity={0.5}
               textAlign='center'
             >
-              © {new Date().getFullYear()} Copyright Swtle. All content on this
-              website is owned by Swtle.
+              {t('footer.copyright', { year: new Date().getFullYear() })}
             </Text>
           </Box>
         </Flex>

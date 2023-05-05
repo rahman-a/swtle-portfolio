@@ -9,39 +9,41 @@ import {
 } from '@chakra-ui/react'
 import * as React from 'react'
 import { CheckIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'next-i18next'
 
 interface IServiceBenefitsProps {}
 
 export default function ServiceBenefits(props: IServiceBenefitsProps) {
+  const { t } = useTranslation('services')
   return (
     <Card boxShadow='lg' borderRadius='lg' p={4} bg='white'>
       <CardHeader>
         <Text as='h2' fontSize='2xl'>
-          Benefits
+          {t('service.benefits')}
         </Text>
       </CardHeader>
       <CardBody>
         <List spacing={4}>
           <ListItem>
             <ListIcon as={CheckIcon} color='green.500' />
-            Prove the authenticity of your financial transactions with ease
+            {t('service.1.benefits.1')}
           </ListItem>
           <ListItem>
             <ListIcon as={CheckIcon} color='green.500' />
-            Track your finances both locally and internationally
+            {t('service.1.benefits.2')}
           </ListItem>
           <ListItem>
             <ListIcon as={CheckIcon} color='green.500' />
-            Protect your data and funds with advanced encryption techniques
+            {t('service.1.benefits.3')}
           </ListItem>
           {/* You can also use custom icons from react-icons */}
           <ListItem>
             <ListIcon as={CheckIcon} color='green.500' />
-            Receive timely payments without additional fees or bargaining
+            {t('service.1.benefits.4')}
           </ListItem>
           <ListItem>
             <ListIcon as={CheckIcon} color='green.500' />
-            Hassle-free management of your finances
+            {t('service.1.benefits.5')}
           </ListItem>
         </List>
       </CardBody>

@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import type { IRegistrationProps } from '../../context/types/Registration-types'
+import { useTranslation } from 'next-i18next'
+import type { IRegistrationProps } from '../../types/Registration-types'
 import {
   FormControl,
   FormLabel,
@@ -12,25 +13,20 @@ import {
   Divider,
   Box,
   HStack,
-  Button,
   Stack,
-  InputRightElement,
   Checkbox,
   Link,
   Text,
   IconButton,
   Flex,
+  InputRightElement,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  MinusCircleIcon,
-  PlusCircleIcon,
-  UserIcon,
-} from '@/src/icons'
+import { MinusCircleIcon, PlusCircleIcon, UserIcon } from '@/src/icons'
 import { AtSignIcon, LockIcon } from '@chakra-ui/icons'
-import { useFieldArray, Controller } from 'react-hook-form'
+import { useFieldArray } from 'react-hook-form'
+import { useRouter } from 'next/router'
+import PasswordField from './Password-Field'
 
 interface ICredentialFormProps {
   isVisible: boolean
@@ -47,9 +43,9 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
     control,
     name: 'emails',
   })
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-    useState(false)
+  const { locale } = useRouter()
+  const { t } = useTranslation('registration')
+  const { t: tc } = useTranslation('common')
   const watchPassword = watch('password')
 
   return (
@@ -62,37 +58,43 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
         isRequired
         isInvalid={!!errors.username?.message}
       >
-        <FormLabel htmlFor='username'>Username</FormLabel>
+        <FormLabel htmlFor='username'>{t('registration.username')}</FormLabel>
         <InputGroup>
           <InputLeftElement color='gray.500'>
             <UserIcon />
           </InputLeftElement>
+
           <Input
             type='text'
             id='username'
-            placeholder='Username'
+            placeholder={`${t('registration.username')}`}
+            paddingInlineStart={locale === 'ar' ? 8 : 0}
             {...register('username', {
-              required: 'Username is required',
+              required: `${t('registration.username_required')}`,
               minLength: {
                 value: 6,
-                message: 'Username must be at least 6 characters',
+                message: `${t('registration.username_least_length', {
+                  length: 6,
+                })}`,
               },
               maxLength: {
                 value: 20,
-                message: 'Username must be at most 20 characters',
+                message: `${t('registration.username_most_length', {
+                  length: 20,
+                })}`,
               },
               validate: (value) => {
                 const regex = /^[a-zA-Z0-9.]+$/
                 return (
                   regex.test(value) ||
-                  'Username can only contain letters, numbers, and periods'
+                  `${t('registration.username_valid_format_required')}`
                 )
               },
             })}
           />
         </InputGroup>
         <FormHelperText>
-          usernames can contain letters (a-z), numbers (0-9), and periods (.)
+          {t('registration.username_valid_format_message')}
         </FormHelperText>
         {errors.username?.message && (
           <FormErrorMessage>{errors.username.message}</FormErrorMessage>
@@ -116,7 +118,7 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
                 errors.emails && !!errors.emails[index]?.email?.message
               }
             >
-              <FormLabel htmlFor='email'>E-mail Address</FormLabel>
+              <FormLabel htmlFor='email'>{t('registration.email')}</FormLabel>
               <InputGroup>
                 <InputLeftElement color='gray.500'>
                   <AtSignIcon />
@@ -125,19 +127,20 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
                   {...register(`emails.${index}.email`, {
                     required: {
                       value: index === 0,
-                      message: 'E-mail Address is required',
+                      message: `${t('registration.email_required')}`,
                     },
                     validate: (value) => {
                       const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
                       return (
                         regex.test(value) ||
-                        'E-mail Address must be a valid e-mail address'
+                        `${t('registration.email_validity_required')}`
                       )
                     },
                   })}
+                  paddingInlineStart={locale === 'ar' ? 8 : 0}
                   type='email'
                   id={`email.${index}`}
-                  placeholder='E-mail Address'
+                  placeholder={`${t('registration.email')}`}
                 />
               </InputGroup>
               {errors.emails && errors.emails[index]?.email?.message && (
@@ -149,7 +152,7 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
             </FormControl>
             {index > 0 && (
               <IconButton
-                aria-label='remove the last E-mail Address'
+                aria-label={t('registration.email.remove')}
                 variant='ghost'
                 onClick={() => remove(index)}
                 icon={<MinusCircleIcon color='gray.600' />}
@@ -160,7 +163,7 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
         {fields.length < 3 && (
           <Flex justifyContent='flex-end'>
             <IconButton
-              aria-label='add another E-mail Address'
+              aria-label={t('registration.email.add')}
               variant='ghost'
               onClick={() => append({ email: '', isPrimary: false })}
               icon={<PlusCircleIcon color='gray.600' />}
@@ -170,104 +173,59 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
       </Box>
       <Divider my={4} borderColor='gray.400' />
       <Stack spacing={4}>
-        <FormControl
+        <PasswordField
           id='password'
-          isRequired
-          isInvalid={!!errors.password?.message}
-        >
-          <FormLabel htmlFor='password'>Password</FormLabel>
-          <InputGroup>
-            <InputLeftElement color='gray.500'>
-              <LockIcon />
-            </InputLeftElement>
-            <Input
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 8,
-                  message: 'Password must be at least 8 characters',
-                },
-                maxLength: {
-                  value: 20,
-                  message: 'Password must be at most 20 characters',
-                },
-                validate: (value) => {
-                  const regex =
-                    /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[a-zA-Z!#$%&? "])[a-zA-Z0-9!#$%&?]{8,20}$/
-                  return (
-                    regex.test(value) ||
-                    'Password must contain at least 1 uppercase letter, 1 lowercase letter and 1 number'
-                  )
-                },
-              })}
-              type={isPasswordVisible ? 'text' : 'password'}
-              placeholder='Type your password'
-            />
-            <InputRightElement>
-              <Button onClick={() => setIsPasswordVisible((prev) => !prev)}>
-                {isPasswordVisible ? (
-                  <EyeIcon color='gray.600' />
-                ) : (
-                  <EyeSlashIcon color='gray.600' />
-                )}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <FormHelperText>
-            passwords must contain at least 1 uppercase, 1 lowercase , 1 digit,
-            and be between 8 and 20 characters
-          </FormHelperText>
-          <FormErrorMessage>
-            {errors.password && errors.password.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl
+          error={errors.password?.message}
+          label={t('registration.password')}
+          helperText={t('registration.password_valid_format_message')!}
+          placeholder={t('registration.password_required')}
+          {...register('password', {
+            required: `${t('registration.password_required')}`,
+            minLength: {
+              value: 8,
+              message: `${t('registration.password_least_length', {
+                length: 8,
+              })}`,
+            },
+            maxLength: {
+              value: 20,
+              message: `${t('registration.password_most_length', {
+                length: 20,
+              })}`,
+            },
+            validate: (value) => {
+              const regex =
+                /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[a-zA-Z"])[a-zA-Z0-9]{8,20}$/
+              return (
+                regex.test(value) ||
+                `${t('registration.password_valid_format_required')}`
+              )
+            },
+          })}
+        />
+        <PasswordField
           id='confirmPassword'
-          isRequired
-          isInvalid={!!errors.confirmPassword?.message}
-        >
-          <FormLabel htmlFor='confirmPassword'>Confirm Password</FormLabel>
-          <InputGroup>
-            <InputLeftElement color='gray.500'>
-              <LockIcon />
-            </InputLeftElement>
-            <Input
-              {...register('confirmPassword', {
-                required: 'Confirm your password',
-                validate: (value) =>
-                  value === watchPassword || 'Passwords do not match',
-              })}
-              type={isConfirmPasswordVisible ? 'text' : 'password'}
-              placeholder='Confirm your password'
-            />
-            <InputRightElement>
-              <Button
-                onClick={() => setIsConfirmPasswordVisible((prev) => !prev)}
-              >
-                {isConfirmPasswordVisible ? (
-                  <EyeIcon color='gray.600' />
-                ) : (
-                  <EyeSlashIcon color='gray.600' />
-                )}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <FormErrorMessage>
-            {errors.confirmPassword && errors.confirmPassword.message}
-          </FormErrorMessage>
-        </FormControl>
+          error={errors.confirmPassword?.message}
+          label={t('registration.confirm_password')}
+          placeholder={t('registration.confirm_password')}
+          {...register('confirmPassword', {
+            required: `${t('registration.confirm_password_required')}`,
+            validate: (value) =>
+              value === watchPassword ||
+              `${t('registration.confirm_password_not_match')}`,
+          })}
+        />
       </Stack>
       <FormControl isRequired pt={2} isInvalid={!!errors.isAgreed}>
         <FormLabel mt={0} display='flex'>
           <HStack spacing={2} alignItems='center'>
             <Checkbox
               {...register('isAgreed', {
-                required:
-                  'You must agree to Privacy policy, terms and conditions',
+                required: `${t('registration.consent_policy_required')}`,
               })}
             ></Checkbox>
             <Text as='p' fontSize={{ base: 'xs', md: 'md' }}>
-              I Agree on
+              {t('registration.consent')}
             </Text>
             <Link
               fontSize={{ base: 'xs', md: 'md' }}
@@ -275,10 +233,10 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
               href='#'
               color='secondary'
             >
-              Terms of Service
+              {t('registration.terms_and_conditions')}
             </Link>
             <Text fontSize={{ base: 'xs', md: 'md' }} as='p'>
-              and
+              {tc('and')}
             </Text>
             <Link
               fontSize={{ base: 'xs', md: 'md' }}
@@ -286,7 +244,7 @@ export default function CredentialForm({ isVisible }: ICredentialFormProps) {
               href='#'
               color='secondary'
             >
-              Privacy Policy
+              {t('registration.privacy_policy')}
             </Link>
           </HStack>
         </FormLabel>

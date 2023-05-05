@@ -1,7 +1,7 @@
 import { Button, Flex, HStack, Text, VStack } from '@chakra-ui/react'
-import { ChevronRightIcon } from '@chakra-ui/icons'
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
-
+import { useTranslation } from 'next-i18next'
 interface ITakeActionProps {
   title?: string
   content: string
@@ -27,6 +27,8 @@ export default function TakeAction({
   styles,
 }: ITakeActionProps) {
   const router = useRouter()
+  const locale = router.locale
+  const { t } = useTranslation('common')
   return (
     <Flex justifyContent='center' style={{ ...styles }}>
       <VStack spacing={8} width={width}>
@@ -57,12 +59,14 @@ export default function TakeAction({
               color='secondary'
               onClick={() => router.push('/contact-us')}
             >
-              Contact us
+              {t('contact_us')}
             </Button>
           )}
           {cta && (
             <Button
-              rightIcon={<ChevronRightIcon />}
+              rightIcon={
+                locale === 'ar' ? <ChevronLeftIcon /> : <ChevronRightIcon />
+              }
               variant='primary'
               borderRadius='3xl'
               onClick={() => router.push(cta.href)}

@@ -1,4 +1,4 @@
-import { useState, useRef, forwardRef } from 'react'
+import { forwardRef } from 'react'
 import {
   Slider as ChakraSlider,
   SliderTrack,

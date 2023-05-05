@@ -19,18 +19,20 @@ import NextLink from 'next/link'
 import { useForm } from 'react-hook-form'
 import { EyeIcon, EyeSlashIcon } from '../icons'
 import { ILoginForm } from '../pages/login'
-import ResetPassword from './Reset-Password'
+import ResetPassword from './Send-Reset-Password-Link'
 
 interface ILoginFormProps {
   submitHandler: (data: ILoginForm) => void
   isRememberMe: boolean
   setIsRememberMe: (value: boolean) => void
+  sendingLoginCredentialLoading: boolean
 }
 
 export default function LoginForm({
   submitHandler,
   setIsRememberMe,
   isRememberMe,
+  sendingLoginCredentialLoading,
 }: ILoginFormProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -40,6 +42,7 @@ export default function LoginForm({
     handleSubmit,
     formState: { errors },
   } = useForm({
+    mode: 'all',
     defaultValues: {
       email: '',
       password: '',
@@ -72,6 +75,13 @@ export default function LoginForm({
               placeholder='Your Email Address *'
               {...register('email', {
                 required: 'Please type your email',
+                validate: (value) => {
+                  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+                  return (
+                    regex.test(value) ||
+                    'E-mail Address must be a valid e-mail address'
+                  )
+                },
               })}
             />
           </InputGroup>
@@ -94,6 +104,13 @@ export default function LoginForm({
               placeholder='Your Password *'
               {...register('password', {
                 required: 'Please type your password',
+                validate: (value) => {
+                  const regex = /[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/
+                  return (
+                    !regex.test(value) ||
+                    "Password shouldn't contain any special characters"
+                  )
+                },
               })}
             />
             <InputRightElement
@@ -127,6 +144,15 @@ export default function LoginForm({
             color='white'
             _hover={{ bg: 'secondary' }}
             borderRadius='5rem'
+            isLoading={sendingLoginCredentialLoading}
+            isDisabled={sendingLoginCredentialLoading}
+            _disabled={{
+              opacity: 0.4,
+              cursor: 'not-allowed',
+              _hover: {
+                bg: 'secondary',
+              },
+            }}
           >
             Sign in
           </Button>
