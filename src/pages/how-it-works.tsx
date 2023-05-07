@@ -1,28 +1,35 @@
-import {
-  Container,
-  Box,
-  Flex,
-  HStack,
-  Text,
-  Button,
-  useMediaQuery,
-} from '@chakra-ui/react'
+import { Container, Box, Flex, HStack, Text } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
-import { HeroSection, WorkStep } from '../components'
 import { NextSeo } from 'next-seo'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
+import { useRouter } from 'next/router'
+import { motion, useScroll } from 'framer-motion'
+import { fadeDown, fadeLeft, fadeRight } from '@animation-variants'
+import howItWorksBG from '@assets/images/how-it-works.png'
+import howItWorksBGMedium from '@assets/images/how-it-works-md.png'
+import howItWorksBGSmall from '@assets/images/how-it-works-sm.png'
+import { HeroSection, WorkStep } from '../components'
 export interface IHowItWorksProps {}
 
 export default function HowItWorks(props: IHowItWorksProps) {
   const [timeLineHeight, setTimeLineHeight] = useState(0)
   const [indicatorOffset, setIndicatorOffset] = useState(0)
+  const [timeLineIndicatorHeight, setTimeLineIndicatorHeight] = useState(0)
+  const [
+    distanceBetweenTimelineTipAndPageTop,
+    setDistanceBetweenTimelineTipAndPageTop,
+  ] = useState(0)
+  const [timeLineContainerBottom, setTimeLineContainerBottom] = useState(0)
+  const timeLineRef = useRef<HTMLDivElement>(null)
+  const { locale } = useRouter()
   const { t } = useTranslation('how-it-works')
   const { t: tn } = useTranslation('navigation')
-  const timeLineRef = useRef<HTMLDivElement>(null)
+  const timeLineContainerRef = useRef<HTMLDivElement>(null)
   const timeLineSectionRef = useRef<HTMLDivElement>(null)
-  const [isSmallerThan480] = useMediaQuery('(max-width:  480px)')
+  const scroll = useScroll()
+
   const steps = [
     {
       id: 1,
@@ -67,37 +74,61 @@ export default function HowItWorks(props: IHowItWorksProps) {
       image: '/images/steps/work-step-7.png',
     },
   ]
-  const indicatorOffsetHandler = () => {
-    const stepsNumber = steps.length
-    const offset = timeLineHeight / stepsNumber
-    const indicatorOffsetValue = isSmallerThan480
-      ? indicatorOffset + offset
-      : indicatorOffset + offset + 0.5
-    if (indicatorOffsetValue > timeLineHeight) return
-    setIndicatorOffset(indicatorOffset + offset + 0.5)
-  }
+  scroll.scrollY.on('change', (v) => {
+    if (distanceBetweenTimelineTipAndPageTop === 0) return
+    if (distanceBetweenTimelineTipAndPageTop >= v) {
+      setIndicatorOffset(0)
+      return
+    }
+    if (timeLineContainerBottom <= v) {
+      return
+    }
+    const offset = v - distanceBetweenTimelineTipAndPageTop! + 95
+    setIndicatorOffset(offset)
+  })
 
   useEffect(() => {
-    if (timeLineRef.current?.offsetHeight) {
-      setTimeLineHeight(timeLineRef.current?.offsetHeight)
+    if (timeLineContainerRef.current?.offsetHeight) {
+      setTimeLineHeight(timeLineContainerRef.current?.offsetHeight)
+      setTimeLineContainerBottom(
+        timeLineContainerRef.current.getBoundingClientRect().bottom
+      )
     }
-  }, [timeLineRef.current?.offsetHeight])
+  }, [timeLineContainerRef.current?.offsetHeight])
+
+  useEffect(() => {
+    if (timeLineSectionRef.current?.offsetHeight) {
+      setTimeLineIndicatorHeight(timeLineSectionRef.current?.offsetHeight)
+    }
+  }, [timeLineSectionRef.current?.offsetHeight])
+
+  useEffect(() => {
+    if (timeLineRef.current) {
+      setDistanceBetweenTimelineTipAndPageTop(
+        timeLineRef.current?.getBoundingClientRect().top
+      )
+    }
+  }, [])
+
   return (
     <>
       <NextSeo title='Swtle | How it Works' />
       <HeroSection
         image={{
-          base: '/images/how-it-works-sm.png',
-          md: '/images/how-it-works-md.png',
-          xl: '/images/how-it-works.png',
+          base: howItWorksBGSmall,
+          md: howItWorksBGMedium,
+          xl: howItWorksBG,
         }}
         title={tn('how_it_works')}
       />
       <Container minW='95%'>
         <Text
-          as='h2'
           fontSize={{ base: '2xl', md: '3xl', xl: '4xl' }}
           width={{ base: '95%', md: '60%' }}
+          as={motion.h2}
+          initial='hide'
+          whileInView='show'
+          variants={locale === 'en' ? fadeRight : fadeLeft}
         >
           {t('works.header')}
         </Text>
@@ -109,11 +140,19 @@ export default function HowItWorks(props: IHowItWorksProps) {
           justifyContent='center'
           position='relative'
         >
-          <Text as='p' width='fit-content' fontWeight='bold' fontSize='3xl'>
+          <Text
+            as={motion.p}
+            initial='hide'
+            whileInView='show'
+            variants={fadeDown}
+            width='fit-content'
+            fontWeight='bold'
+            fontSize='3xl'
+          >
             {t('works.strategy')}
           </Text>
           <HStack
-            ref={timeLineRef}
+            ref={timeLineContainerRef}
             width={{ base: '100%', sm: 'auto' }}
             alignItems={{ base: 'flex-start', sm: 'center' }}
             flexDirection='column'
@@ -122,20 +161,19 @@ export default function HowItWorks(props: IHowItWorksProps) {
             {steps.map((step, index) => (
               <WorkStep
                 key={step.id}
-                step={index + 1}
+                step={step.id}
                 isReverse={index % 2 === 1}
                 title={step.title}
                 description={step.description}
                 image={step.image}
                 ref={timeLineSectionRef}
+                isEven={index % 2 === 0}
               />
             ))}
             <Box
+              ref={timeLineRef}
               width='0.3rem'
-              height={{
-                base: `${timeLineHeight}px`,
-                sm: `${timeLineHeight}px`,
-              }}
+              height={`${timeLineHeight}px`}
               position='absolute'
               bg='gray.300'
               borderRadius='md'
@@ -147,7 +185,7 @@ export default function HowItWorks(props: IHowItWorksProps) {
                 width='0.3rem'
                 transition='top 0.5s ease-in-out'
                 top={`${indicatorOffset}px`}
-                height={{ base: '16rem' }}
+                height={`${timeLineIndicatorHeight}px`}
                 bg='secondary'
                 borderRadius='md'
               ></Box>

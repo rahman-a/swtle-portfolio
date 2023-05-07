@@ -2,6 +2,8 @@ import { Box, Flex, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
 import Image from 'next/image'
 import { forwardRef } from 'react'
 import { useTranslation } from 'next-i18next'
+import { motion } from 'framer-motion'
+import { fadeLeft, fadeRight, flipDown, zoomIn } from '@animation-variants'
 
 interface IWorkStepProps {
   step: number
@@ -9,10 +11,11 @@ interface IWorkStepProps {
   description: string
   image: string
   isReverse?: boolean
+  isEven?: boolean
 }
 
 const WorkStep = forwardRef<HTMLDivElement, IWorkStepProps>(
-  ({ step, title, description, image, isReverse }, ref) => {
+  ({ step, title, description, image, isReverse, isEven }, ref) => {
     const width = useBreakpointValue({ base: 500, sm: 300 })
     return (
       <Flex
@@ -37,27 +40,41 @@ const WorkStep = forwardRef<HTMLDivElement, IWorkStepProps>(
           }
         >
           <HexaGon step={step} />
-          <Text as='h3' color='primary' fontSize={{ base: 'xl', md: '2xl' }}>
-            {title}
-          </Text>
-          <Text as='p' fontSize={{ base: 'sm', md: 'md' }}>
-            {description}
-          </Text>
+          <Box
+            as={motion.div}
+            initial='hide'
+            whileInView='show'
+            variants={isEven ? fadeRight : fadeLeft}
+          >
+            <Text as='h3' color='primary' fontSize={{ base: 'xl', md: '2xl' }}>
+              {title}
+            </Text>
+            <Text as='p' fontSize={{ base: 'sm', md: 'md' }}>
+              {description}
+            </Text>
+          </Box>
         </VStack>
-        <Image
-          src={image}
-          alt={title}
-          width={width ?? 300}
-          height={150}
-          style={{
-            objectFit: 'cover',
-            borderRadius: '1rem',
-            transform: 'rotateX(25deg)',
-            clipPath: isReverse
-              ? 'polygon(12% 0, 100% 0, 100% 100%, 0% 100%)'
-              : 'polygon(0 0, 88% 0, 100% 100%, 0% 100%)',
-          }}
-        />
+        <Box
+          as={motion.div}
+          initial='hide'
+          whileInView='show'
+          variants={flipDown}
+        >
+          <Image
+            src={image}
+            alt={title}
+            width={width ?? 300}
+            height={150}
+            style={{
+              objectFit: 'cover',
+              borderRadius: '1rem',
+              transform: 'rotateX(25deg)',
+              clipPath: isReverse
+                ? 'polygon(12% 0, 100% 0, 100% 100%, 0% 100%)'
+                : 'polygon(0 0, 88% 0, 100% 100%, 0% 100%)',
+            }}
+          />
+        </Box>
       </Flex>
     )
   }
@@ -66,7 +83,13 @@ const WorkStep = forwardRef<HTMLDivElement, IWorkStepProps>(
 function HexaGon({ step }: { step: number }) {
   const { t } = useTranslation('how-it-works')
   return (
-    <Box className='hexagon'>
+    <Box
+      className='hexagon'
+      as={motion.div}
+      initial='hide'
+      whileInView='show'
+      variants={zoomIn}
+    >
       <VStack>
         <Text as='p' fontSize={{ base: 'sm' }} letterSpacing={1}>
           {t('works.step')}

@@ -1,6 +1,8 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
+import { motion } from 'framer-motion'
+import { fadeUp } from '@animation-variants'
 
 export interface IPartnerProps {}
 
@@ -22,12 +24,26 @@ export default function Partner(props: IPartnerProps) {
         borderRadius='xl'
         p={{ base: 4, md: 8 }}
       >
-        <Text as='h3' color='primary'>
+        <Text
+          color='primary'
+          as={motion.h3}
+          initial='hide'
+          whileInView='show'
+          exit='show'
+          variants={fadeUp}
+        >
           {t('hero.partner_success')}
         </Text>
         <HStack justifyContent='space-evenly' w='100%'>
-          <Image src='/images/tdra.png' alt='TDRA' width={100} height={100} />
           <Image
+            data-aos='zoom-in'
+            src='/images/tdra.png'
+            alt='TDRA'
+            width={100}
+            height={100}
+          />
+          <Image
+            data-aos='zoom-in'
             src='/images/economytourism.png'
             alt='Economy and Tourism'
             width={100}

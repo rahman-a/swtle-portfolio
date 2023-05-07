@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { useScroll } from 'framer-motion'
 import Navigation from './Navigation'
 import Language from './Language'
 import classnames from 'classnames'
@@ -16,6 +17,7 @@ import NextLink from 'next/link'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import logoImage from '@assets/images/logo.svg'
 import Drawer from './Drawer'
 import CTA from './CTA'
 
@@ -25,6 +27,8 @@ export default function Header(props: IHeaderProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t } = useTranslation('common')
   const btnRef = useRef<HTMLButtonElement>(null)
+  const [isFixed, setIsFixed] = useState(false)
+  const { scrollY } = useScroll()
   const router = useRouter()
   const allowedPathsForHeaderBg = [
     '/login',
@@ -44,7 +48,17 @@ export default function Header(props: IHeaderProps) {
   ]
   const headerClassNames = classnames('header', {
     'header--bg': allowedPathsForHeaderBg.includes(router.route),
+    'header--fixed': isFixed,
   })
+  useEffect(() => {
+    scrollY.on('change', (v) => {
+      if (v > 80) {
+        setIsFixed(true)
+      } else {
+        setIsFixed(false)
+      }
+    })
+  }, [scrollY])
   return (
     <header className={headerClassNames}>
       <Drawer isOpen={isOpen} onClose={onClose} ref={btnRef!} />
@@ -52,13 +66,7 @@ export default function Header(props: IHeaderProps) {
         <Flex justifyContent='space-between'>
           <Box>
             <Link as={NextLink} href='/'>
-              <Image
-                src='./images/logo.svg'
-                lang='en'
-                alt='logo'
-                width={100}
-                height={100}
-              />
+              <Image src={logoImage} alt='logo' width={100} height={100} />
             </Link>
           </Box>
           <Navigation />

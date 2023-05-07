@@ -148,3 +148,12 @@ main {
 .phone-input input {
   direction: ltr;
 }
+.header--fixed {
+  position: fixed;
+  width: 100%;
+  background-color: rgba(33, 89, 127, 0.9);
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}

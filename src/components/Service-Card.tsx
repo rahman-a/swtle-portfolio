@@ -8,6 +8,9 @@ import {
   useMultiStyleConfig,
 } from '@chakra-ui/react'
 
+import { motion } from 'framer-motion'
+import { zoomIn, fadeUp, fadeDown } from '@animation-variants'
+
 interface IServiceCardProps {
   title: string
   icon: React.ReactNode
@@ -32,6 +35,7 @@ const ServiceCardTab = forwardRef<HTMLDivElement, IServiceCardProps>(
         p={{ base: 4 }}
         gap={{ base: 4, lg: 8 }}
         outline='none'
+        overflow='hidden'
         _hover={{
           cursor: 'pointer',
           backgroundColor: 'secondary',
@@ -44,10 +48,24 @@ const ServiceCardTab = forwardRef<HTMLDivElement, IServiceCardProps>(
         __css={styles.tab}
         {...tabProps}
       >
-        {icon && <CardHeader>{icon}</CardHeader>}
-        <CardBody alignContent='center'>
+        {icon && (
+          <CardHeader
+            as={motion.div}
+            initial='hide'
+            whileInView='show'
+            variants={zoomIn}
+          >
+            {icon}
+          </CardHeader>
+        )}
+        <CardBody
+          alignContent='center'
+          as={motion.div}
+          initial='hide'
+          whileInView='show'
+          variants={fadeDown}
+        >
           <Text
-            as='h4'
             textAlign='center'
             fontSize={{ base: 'sm', md: 'md', lg: 'xl' }}
             fontWeight={{ base: 'normal', lg: 'bold' }}

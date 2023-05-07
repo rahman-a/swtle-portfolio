@@ -46,6 +46,7 @@ export default function SpecialAboutSwtle(props: ISpecialAboutSwtleProps) {
           fontSize={{ base: '2xl', xl: '3xl' }}
           fontWeight='bold'
           color='secondary'
+          data-aos='zoom-in'
         >
           {t('special.title')}
         </Text>
@@ -58,10 +59,12 @@ export default function SpecialAboutSwtle(props: ISpecialAboutSwtleProps) {
             image='/images/special-swtle.png'
             radius='top right'
             outline='bottom right'
+            data-aos='fade-up-right'
+            data-aos-duration='3000'
           />
           <List width={{ base: '100%', xl: '45%' }} spacing={8}>
             {features.map((feature) => (
-              <ListItem key={feature.id}>
+              <ListItem key={feature.id} data-aos='fade-left'>
                 <HStack>
                   <ListIcon
                     width='1.5rem'

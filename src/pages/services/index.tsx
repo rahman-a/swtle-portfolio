@@ -18,23 +18,33 @@ import {
   Divider,
 } from '@chakra-ui/react'
 import { UserIcon, SuitCaseIcon } from '@icons'
+import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
+import { motion } from 'framer-motion'
+import { fadeLeft, fadeRight } from '@animation-variants'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
+import serviceBG from '@assets/images/services.png'
+import serviceBGMedium from '@assets/images/services-md.png'
+import serviceBGSmall from '@assets/images/services-sm.png'
+import PrioritizationImage from '@assets/images/prioritization.png'
+import paymentGuaranteeImage from '@assets/images/payment-guarantee.png'
+import increaseSalesImages from '@assets/images/increase-sales.png'
 interface IServicesProps {}
 
 export default function Services(props: IServicesProps) {
   const { t } = useTranslation('services')
   const { t: tn } = useTranslation('navigation')
+  const { locale } = useRouter()
   return (
     <>
       <NextSeo title='Swtle | Services' />
       <HeroSection
         image={{
-          base: '/images/services-sm.png',
-          md: '/images/services-md.png',
-          xl: '/images/services.png',
+          base: serviceBGSmall,
+          md: serviceBGMedium,
+          xl: serviceBG,
         }}
         title={tn('services')}
       />
@@ -43,7 +53,13 @@ export default function Services(props: IServicesProps) {
           <Tabs isFitted>
             <TabList>
               <Tab color='gray.400' _selected={{ color: 'primary' }}>
-                <HStack spacing={4}>
+                <HStack
+                  spacing={4}
+                  as={motion.div}
+                  initial='hide'
+                  whileInView='show'
+                  variants={fadeRight}
+                >
                   <UserIcon boxSize={8} />
                   <Text
                     as='h2'
@@ -54,7 +70,13 @@ export default function Services(props: IServicesProps) {
                 </HStack>
               </Tab>
               <Tab color='gray.400' _selected={{ color: 'primary' }}>
-                <HStack spacing={4}>
+                <HStack
+                  spacing={4}
+                  as={motion.div}
+                  initial='hide'
+                  whileInView='show'
+                  variants={fadeLeft}
+                >
                   <SuitCaseIcon boxSize={8} />
                   <Text
                     as='h2'
@@ -83,9 +105,12 @@ export default function Services(props: IServicesProps) {
         </Box>
         <Divider height='2px' my={4} backgroundColor='gray.500' />
         <Text
-          as='h2'
           fontWeight='bold'
           fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
+          as={motion.h2}
+          initial='hide'
+          whileInView='show'
+          variants={locale === 'en' ? fadeRight : fadeLeft}
         >
           {t('services.benefits.header')}
         </Text>
@@ -95,7 +120,7 @@ export default function Services(props: IServicesProps) {
             description={`${t('services.benefits.1.content')}`}
             descriptionFontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
             sectionImage={{
-              image: '/images/prioritization.png',
+              image: PrioritizationImage,
             }}
             styles={{
               padding: '0.5rem 0',
@@ -108,7 +133,7 @@ export default function Services(props: IServicesProps) {
             description={`${t('services.benefits.2.content')}`}
             descriptionFontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
             sectionImage={{
-              image: '/images/payment-guarantee.png',
+              image: paymentGuaranteeImage,
             }}
             styles={{
               padding: '0.5rem 0',
@@ -122,7 +147,7 @@ export default function Services(props: IServicesProps) {
             description={`${t('services.benefits.3.content')}`}
             descriptionFontSize={{ base: 'sm', md: 'md', xl: 'xl' }}
             sectionImage={{
-              image: '/images/increase-sales.png',
+              image: increaseSalesImages,
             }}
             styles={{
               padding: '0.5rem 0',

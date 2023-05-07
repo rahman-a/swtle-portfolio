@@ -1,10 +1,14 @@
 import { Box } from '@chakra-ui/react'
+import { StaticImageData } from 'next/image'
+import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
+import { fadeDownLeft, fadeDownRight, zoomIn } from '@animation-variants'
 import Image from 'next/image'
 import classNames from 'classnames'
 import React from 'react'
 
 export interface ISectionImageProps {
-  image: string
+  image: StaticImageData | string
   radius?: 'all' | 'top right' | 'top left' | 'bottom right' | 'bottom left'
   overlayText?: string
   radiusValue?: string
@@ -20,6 +24,7 @@ export default function SectionImage({
   overlayText,
   styles,
 }: ISectionImageProps) {
+  const { locale } = useRouter()
   const outlineStyle = classNames({
     'outline-bottom-right': outline === 'bottom right',
     'outline-bottom-left': outline === 'bottom left',
@@ -37,13 +42,17 @@ export default function SectionImage({
       width={{ base: '100%', sm: '45%' }}
       className={outlineStyle}
       style={{ ...styles }}
+      as={motion.div}
+      initial='hide'
+      whileInView='show'
+      exit='show'
+      variants={locale === 'ar' ? fadeDownRight : fadeDownLeft}
     >
       {overlayText && (
         <Box
           position='absolute'
-          top='50%'
-          left='50%'
-          transform='translate(-50%, -50%)'
+          top='20%'
+          left='20%'
           width='65%'
           height='65%'
           border='3px solid #fff'
@@ -53,6 +62,11 @@ export default function SectionImage({
           color='white'
           fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '6xl' }}
           textTransform='uppercase'
+          as={motion.div}
+          initial='hide'
+          whileInView='show'
+          exit='show'
+          variants={zoomIn}
         >
           {overlayText}
         </Box>

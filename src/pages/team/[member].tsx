@@ -16,7 +16,9 @@ import { NextSeo } from 'next-seo'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
-
+import teamBG from '@assets/images/team.png'
+import teamBGMedium from '@assets/images/team-md.png'
+import teamBGSmall from '@assets/images/team-sm.png'
 interface ITeamProps {}
 
 export default function Team(props: ITeamProps) {
@@ -27,9 +29,9 @@ export default function Team(props: ITeamProps) {
       <NextSeo title='Swtle | Dr. Abdulrahim Madi' />
       <HeroSection
         image={{
-          base: '/images/team-sm.png',
-          md: '/images/team-md.png',
-          xl: '/images/team.png',
+          base: teamBGSmall,
+          md: teamBGMedium,
+          xl: teamBG,
         }}
         title={tn('our_team')}
       />

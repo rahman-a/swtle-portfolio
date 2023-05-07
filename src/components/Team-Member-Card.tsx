@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  Box,
   Button,
   ButtonGroup,
   Card,
@@ -13,6 +14,14 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
+import {
+  fadeUp,
+  fadeDown,
+  zoomOut,
+  fadeLeft,
+  fadeRight,
+} from '@animation-variants'
 import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { FacebookIcon, LinkedinIcon, TwitterIcon } from '../icons'
@@ -23,33 +32,64 @@ export default function TeamMemberCard(props: ITeamMemberCardProps) {
   const { t } = useTranslation('team')
   const { t: tc } = useTranslation('common')
   const par = t('team.member.1.content')
-
+  const { locale } = useRouter()
   return (
-    <Card boxShadow='lg' width={96}>
+    <Card
+      boxShadow='lg'
+      width={96}
+      as={motion.div}
+      initial='hide'
+      whileInView='show'
+      variants={fadeUp}
+    >
       <CardBody alignItems='center' display='flex' flexDirection='column'>
-        <Image
-          src='/images/team-member.png'
-          alt='Team Member'
-          width={300}
-          height={300}
-        />
+        <Box
+          as={motion.div}
+          initial='hide'
+          whileInView='show'
+          variants={zoomOut}
+        >
+          <Image
+            src='/images/team-member.png'
+            alt='Team Member'
+            width={300}
+            height={300}
+          />
+        </Box>
         <VStack mt={3} spacing={4}>
           <Text
-            as='h3'
             fontSize='2xl'
             color='secondary'
             fontWeight='bold'
             textAlign='center'
+            as={motion.h3}
+            initial='hide'
+            whileInView='show'
+            variants={fadeUp}
           >
             {t('team.member.1.name')}
           </Text>
-          <Text as='p' fontSize='md' height={20}>
+          <Text
+            fontSize='md'
+            height={20}
+            as={motion.p}
+            initial='hide'
+            whileInView='show'
+            variants={fadeDown}
+          >
             {par.length > 200 ? par.slice(0, 200) + '...' : par}
           </Text>
         </VStack>
       </CardBody>
       <CardFooter>
-        <Flex w='100%' justifyContent='space-between'>
+        <Flex
+          w='100%'
+          justifyContent='space-between'
+          as={motion.div}
+          initial='hide'
+          whileInView='show'
+          variants={locale === 'en' ? fadeRight : fadeLeft}
+        >
           <HStack spacing={4}>
             <Link
               as={NextLink}

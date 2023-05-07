@@ -1,7 +1,8 @@
 import * as React from 'react'
-import FeatureCard from './Feature-Card'
 import { Box, Container, Flex, Text } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
+import { motion } from 'framer-motion'
+import FeatureCard from './Feature-Card'
 
 interface IWhySwtleProps {}
 
@@ -37,6 +38,7 @@ export default function WhySwtle(props: IWhySwtleProps) {
   return (
     <Container minW='95%' py={20}>
       <Flex
+        as={motion.div}
         direction='column'
         justifyContent='space-between'
         alignItems='center'
@@ -47,6 +49,7 @@ export default function WhySwtle(props: IWhySwtleProps) {
           flexDirection='column'
           justifyContent='center'
           alignItems='center'
+          data-aos='fade-up'
         >
           <Text
             as='h3'
@@ -73,8 +76,8 @@ export default function WhySwtle(props: IWhySwtleProps) {
           flexWrap='wrap'
           gap={4}
         >
-          {cards.map((card) => (
-            <FeatureCard key={card.id} {...card} />
+          {cards.map((card, idx) => (
+            <FeatureCard key={card.id} {...card} isEven={idx % 2 === 0} />
           ))}
         </Flex>
       </Flex>

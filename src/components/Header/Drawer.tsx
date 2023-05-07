@@ -29,7 +29,7 @@ const DrawerComponent = forwardRef<HTMLButtonElement, IDrawerProps>(
     return (
       <Drawer
         isOpen={isOpen}
-        placement={locale === 'ar' ? 'left' : 'right'}
+        placement='right'
         onClose={onClose}
         finalFocusRef={ref as RefObject<HTMLButtonElement>}
       >
@@ -37,11 +37,7 @@ const DrawerComponent = forwardRef<HTMLButtonElement, IDrawerProps>(
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>
-            <HStack
-              spacing={2}
-              w='100%'
-              justifyContent={locale === 'ar' ? 'flex-end' : 'flex-start'}
-            >
+            <HStack spacing={2} w='100%' justifyContent='flex-start'>
               <Language />
             </HStack>
           </DrawerHeader>

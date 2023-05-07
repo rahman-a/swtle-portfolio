@@ -10,11 +10,12 @@ import {
   InputLeftElement,
   Button,
   HStack,
-  InputRightElement,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import * as React from 'react'
+import { motion } from 'framer-motion'
+import { fadeRight, fadeLeft } from '@animation-variants'
 import { AtSignIcon, PhoneIcon } from '@chakra-ui/icons'
 import { useTranslation } from 'next-i18next'
 import { SendPlaneIcon, UserIcon } from '../icons'
@@ -54,6 +55,10 @@ export default function ContactForm(props: IContactFormProps) {
       p={{ base: 8, lg: 10, xl: 12 }}
       borderRadius='3xl'
       width={{ base: '95%', lg: '45%' }}
+      as={motion.div}
+      initial='hide'
+      whileInView='show'
+      variants={locale === 'en' ? fadeLeft : fadeRight}
     >
       <Text as='h2' fontSize='3xl'>
         {t('contact_us')}

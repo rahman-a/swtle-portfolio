@@ -12,6 +12,9 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { PhoneIcon } from '@chakra-ui/icons'
+import { motion } from 'framer-motion'
+import { fadeUp, fadeRight, zoomIn } from '@animation-variants'
+import logoImage from '@assets/images/logo.svg'
 import {
   LocationIcon,
   EnvelopeIcon,
@@ -30,7 +33,15 @@ export default function Footer(props: IFooterProps) {
     <footer className='footer'>
       <Container maxW='95%' mx='auto'>
         <Flex direction={'column'} gap={10} alignItems='center'>
-          <Image src='./images/logo.svg' alt='logo' width={100} height={100} />
+          <Box
+            as={motion.div}
+            initial='hide'
+            whileInView='show'
+            exit='show'
+            variants={zoomIn}
+          >
+            <Image src={logoImage} alt='logo' width={100} height={100} />
+          </Box>
           <Flex
             gap={{
               base: 10,
@@ -42,7 +53,15 @@ export default function Footer(props: IFooterProps) {
             direction='row'
             flexWrap='wrap'
           >
-            <VStack alignItems='flex-start' spacing={4}>
+            <VStack
+              as={motion.div}
+              initial='hide'
+              whileInView='show'
+              exit='show'
+              variants={fadeUp}
+              alignItems='flex-start'
+              spacing={4}
+            >
               <HStack spacing={4}>
                 <LocationIcon />
                 <Text as='p' w={{ sm: '20rem', xl: '25rem' }}>
@@ -76,7 +95,15 @@ export default function Footer(props: IFooterProps) {
                 </Flex>
               </HStack>
             </VStack>
-            <VStack alignItems='flex-start' spacing={1}>
+            <VStack
+              as={motion.div}
+              initial='hide'
+              whileInView='show'
+              exit='show'
+              variants={fadeUp}
+              alignItems='flex-start'
+              spacing={1}
+            >
               <Link as={NextLink} href='/'>
                 {tn('home')}
               </Link>
@@ -90,7 +117,15 @@ export default function Footer(props: IFooterProps) {
                 {t('faqs')}
               </Link>
             </VStack>
-            <VStack alignItems='flex-start' spacing={4}>
+            <VStack
+              as={motion.div}
+              initial='hide'
+              whileInView='show'
+              exit='show'
+              variants={fadeUp}
+              alignItems='flex-start'
+              spacing={4}
+            >
               <Link as={NextLink} href='/team'>
                 {tn('our_team')}
               </Link>
@@ -105,7 +140,13 @@ export default function Footer(props: IFooterProps) {
               </Link>
             </VStack>
           </Flex>
-          <Box>
+          <Box
+            as={motion.div}
+            initial='hide'
+            whileInView='show'
+            exit='show'
+            variants={fadeRight}
+          >
             <Divider mb={3} opacity={0.5} />
             <Text
               fontSize={{ base: 'sm' }}

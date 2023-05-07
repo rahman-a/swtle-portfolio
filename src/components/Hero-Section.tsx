@@ -1,11 +1,14 @@
-import { Box, Text, position } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
+import { StaticImageData } from 'next/image'
+import { fadeUp } from '@animation-variants'
+import { motion } from 'framer-motion'
 import * as React from 'react'
 
 interface IHeroSectionProps {
   image: {
-    base: string
-    md: string
-    xl: string
+    base: StaticImageData
+    md: StaticImageData
+    xl: StaticImageData
   }
   title: string
   position?: {
@@ -27,9 +30,9 @@ export default function HeroSection({
       height='45vh'
       width='100%'
       backgroundImage={{
-        base: `url(${image.base})`,
-        md: `url(${image.md})`,
-        xl: `url(${image.xl})`,
+        base: `url(${image.base.src})`,
+        md: `url(${image.md.src})`,
+        xl: `url(${image.xl.src})`,
       }}
       backgroundSize='cover'
       backgroundPosition={position ? position : 'center'}
@@ -41,7 +44,11 @@ export default function HeroSection({
     >
       <Box p='2rem'>
         <Text
-          as='h1'
+          as={motion.h1}
+          initial='hide'
+          whileInView='show'
+          exit='show'
+          variants={fadeUp}
           fontWeight='bold'
           letterSpacing='2px'
           color='white'

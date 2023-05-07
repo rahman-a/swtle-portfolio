@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import {
   Box,
   Flex,
@@ -8,10 +9,16 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
+import { motion } from 'framer-motion'
+import { fadeUp, fadeDown } from '@animation-variants'
+import heroSectionBGImage from '@assets/images/main-hero-section.png'
+import heroSectionBGImageMedium from '@assets/images/main-hero-section-md.png'
+import heroSectionBGImageSmall from '@assets/images/main-hero-section-sm.png'
 import CTA from './Header/CTA'
 import Video from './Videos'
 import { PlayIcon } from '../icons'
 import Partners from './Partners'
+const CountUp = dynamic(() => import('react-countup'), { ssr: false })
 
 interface IMainHeroSectionProps {
   isStatistics?: boolean
@@ -23,18 +30,25 @@ export default function MainHeroSection({
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t: tHome } = useTranslation('home')
   const stats = [
-    { id: 1, label: tHome('hero.stats.transactions'), value: '60.000+' },
-    { id: 2, label: tHome('hero.stats.member'), value: '75K+' },
+    {
+      id: 1,
+      label: tHome('hero.stats.transactions'),
+      value: '60000',
+      suffix: '+',
+    },
+    { id: 2, label: tHome('hero.stats.member'), value: '75', suffix: 'K+' },
     {
       id: 3,
       label: tHome('hero.stats.current_payments'),
-      value: '1.7M+',
+      value: '1.7',
+      suffix: 'M+',
       currency: 'aed',
     },
     {
       id: 4,
       label: tHome('hero.stats.settled_payments'),
-      value: '2.4M+',
+      value: '2.4',
+      suffix: 'M+',
       currency: 'aed',
     },
   ]
@@ -46,9 +60,9 @@ export default function MainHeroSection({
         height='100vh'
         width='100%'
         backgroundImage={{
-          base: 'url(/images/main-hero-section-sm.png)',
-          md: 'url(/images/main-hero-section-md.png)',
-          xl: 'url(/images/main-hero-section.png)',
+          base: `url(${heroSectionBGImageSmall.src})`,
+          md: `url(${heroSectionBGImageMedium.src})`,
+          xl: `url(${heroSectionBGImage.src})`,
         }}
         backgroundSize='cover'
         backgroundPosition={{ base: 'inherit', md: 'center' }}
@@ -68,7 +82,14 @@ export default function MainHeroSection({
           alignItems={'center'}
         >
           <VStack spacing={{ base: 24, md: 28 }}>
-            <VStack spacing={6}>
+            <VStack
+              spacing={6}
+              as={motion.div}
+              initial='hide'
+              whileInView='show'
+              exit='show'
+              variants={fadeUp}
+            >
               <Text
                 as='h1'
                 color='white'
@@ -107,9 +128,14 @@ export default function MainHeroSection({
             {isStatistics && (
               <HStack
                 w='100%'
+                as={motion.div}
                 justifyContent='space-between'
                 alignItems='center'
                 flexWrap='wrap'
+                initial='hide'
+                whileInView='show'
+                exit='show'
+                variants={fadeDown}
               >
                 {stats.map((stat) => (
                   <VStack
@@ -149,7 +175,16 @@ export default function MainHeroSection({
                       ) : (
                         ''
                       )}
-                      {stat.value}
+                      <CountUp
+                        start={0}
+                        end={Number(stat.value)}
+                        duration={5}
+                        delay={1}
+                        decimals={1}
+                        suffix={stat.suffix}
+                      >
+                        {({ countUpRef }) => <span ref={countUpRef} />}
+                      </CountUp>
                     </Text>
                   </VStack>
                 ))}

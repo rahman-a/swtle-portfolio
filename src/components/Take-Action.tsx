@@ -30,7 +30,7 @@ export default function TakeAction({
   const locale = router.locale
   const { t } = useTranslation('common')
   return (
-    <Flex justifyContent='center' style={{ ...styles }}>
+    <Flex justifyContent='center' style={{ ...styles }} data-aos='zoom-in'>
       <VStack spacing={8} width={width}>
         {title && (
           <Text

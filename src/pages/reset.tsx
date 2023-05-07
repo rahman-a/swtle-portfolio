@@ -27,7 +27,6 @@ import userAPI from '../services/credentials'
 import { EyeIcon, EyeSlashIcon } from '../icons'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetStaticPropsContext } from 'next'
 interface IResetPasswordProps {
   token: string
 }

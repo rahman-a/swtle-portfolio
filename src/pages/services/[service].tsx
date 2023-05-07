@@ -10,6 +10,10 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
+import serviceBG from '@assets/images/services.png'
+import serviceBGMedium from '@assets/images/services-md.png'
+import serviceBGSmall from '@assets/images/services-sm.png'
+import serviceCardBG from '@assets/images/service-card.png'
 interface IServiceProps {}
 
 export default function Service(props: IServiceProps) {
@@ -27,9 +31,9 @@ export default function Service(props: IServiceProps) {
       />
       <HeroSection
         image={{
-          base: '/images/services-sm.png',
-          md: '/images/services-md.png',
-          xl: '/images/services.png',
+          base: serviceBGSmall,
+          md: serviceBGMedium,
+          xl: serviceBG,
         }}
         title={tn('services')}
       />
@@ -38,7 +42,7 @@ export default function Service(props: IServiceProps) {
           title={`${t('services.benefits.1.title')}`}
           description={`${t('services.benefits.1.content')}`}
           sectionImage={{
-            image: '/images/service-card.png',
+            image: serviceCardBG,
           }}
           styles={{
             paddingTop: '0.5rem',

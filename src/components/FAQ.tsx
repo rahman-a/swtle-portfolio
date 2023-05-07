@@ -13,6 +13,8 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import { motion } from 'framer-motion'
+import { zoomIn } from '../animation-variants'
 
 interface IFAQProps {}
 
@@ -64,6 +66,10 @@ export default function FAQ(props: IFAQProps) {
           position='relative'
           zIndex='22'
           gap={{ base: 8 }}
+          as={motion.div}
+          initial='hide'
+          whileInView='show'
+          variants={zoomIn}
         >
           <VStack>
             {router.locale === 'en' && (

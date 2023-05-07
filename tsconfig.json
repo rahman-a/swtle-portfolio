@@ -23,7 +23,8 @@
       "@api/*": ["src/api/*"],
       "@hooks/*": ["src/hooks/*"],
       "@assets/*": ["src/assets/*"],
-      "@icons": ["src/icons"]
+      "@icons": ["src/icons"],
+      "@animation-variants": ["src/animation-variants"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -12,6 +12,11 @@ import { NextSeo } from 'next-seo'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
+import aboutUsBG from '@assets/images/about-us.png'
+import aboutUsBGMedium from '@assets/images/about-us-md.png'
+import aboutUsBGSmall from '@assets/images/about-us-sm.png'
+import aboutSwtleImage from '@assets/images/about-swtle.png'
+import philosophyImage from '@assets/images/philosophy.png'
 interface IAboutUsProps {}
 
 export default function AboutUs(props: IAboutUsProps) {
@@ -22,9 +27,9 @@ export default function AboutUs(props: IAboutUsProps) {
       <NextSeo title='Swtle | About Us' />
       <HeroSection
         image={{
-          base: './images/about-us-sm.png',
-          md: './images/about-us-md.png',
-          xl: './images/about-us.png',
+          base: aboutUsBGSmall,
+          md: aboutUsBGMedium,
+          xl: aboutUsBG,
         }}
         title={tn('about_us')}
       />
@@ -41,7 +46,7 @@ export default function AboutUs(props: IAboutUsProps) {
             base: 4,
           }}
           sectionImage={{
-            image: '/images/about-swtle.png',
+            image: aboutSwtleImage,
             radius: 'bottom left',
             radiusValue: '10rem',
           }}
@@ -116,7 +121,7 @@ export default function AboutUs(props: IAboutUsProps) {
                     xl: 'lg',
                   }}
                   sectionImage={{
-                    image: '/images/philosophy.png',
+                    image: philosophyImage,
                     radius: 'top left',
                     radiusValue: '10rem',
                   }}

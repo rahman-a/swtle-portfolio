@@ -1,6 +1,7 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, TabPanel } from '@chakra-ui/react'
 import ServiceCardTab from './Service-Card'
 import { CheckCircleIcon } from '@chakra-ui/icons'
+
 import { PlantIcon, RiseIcon, HandShakeIcon } from '@icons'
 import { useTranslation } from 'next-i18next'
 import TextImageSection from './Text-Image-Section'
