@@ -2,6 +2,8 @@ import { Button, Flex, HStack, Text, VStack } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import { zoomIn } from '@animation-variants'
+import { motion } from 'framer-motion'
 interface ITakeActionProps {
   title?: string
   content: string
@@ -30,7 +32,15 @@ export default function TakeAction({
   const locale = router.locale
   const { t } = useTranslation('common')
   return (
-    <Flex justifyContent='center' style={{ ...styles }} data-aos='zoom-in'>
+    <Flex
+      justifyContent='center'
+      style={{ ...styles }}
+      as={motion.div}
+      initial='hide'
+      whileInView='show'
+      exit='hide'
+      variants={zoomIn}
+    >
       <VStack spacing={8} width={width}>
         {title && (
           <Text

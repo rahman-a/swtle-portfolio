@@ -13,7 +13,7 @@ import { NextSeo } from 'next-seo'
 import { Container } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
+import aboutSwtleImage from '@assets/images/about-swtle.png'
 export default function Home() {
   const { t } = useTranslation('home')
   const { t: tNav } = useTranslation('navigation')
@@ -61,7 +61,7 @@ export default function Home() {
             borderRadius: 8,
           }}
           sectionImage={{
-            image: '/images/about-swtle.png',
+            image: aboutSwtleImage,
             radius: 'top left',
             radiusValue: '12rem',
             outline: 'bottom left',

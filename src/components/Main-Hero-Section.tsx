@@ -18,7 +18,8 @@ import CTA from './Header/CTA'
 import Video from './Videos'
 import { PlayIcon } from '../icons'
 import Partners from './Partners'
-const CountUp = dynamic(() => import('react-countup'), { ssr: false })
+import CountUp from 'react-countup'
+// const CountUp = dynamic(() => import('react-countup'), { ssr: false })
 
 interface IMainHeroSectionProps {
   isStatistics?: boolean
@@ -176,15 +177,12 @@ export default function MainHeroSection({
                         ''
                       )}
                       <CountUp
-                        start={0}
                         end={Number(stat.value)}
                         duration={5}
                         delay={1}
                         decimals={1}
                         suffix={stat.suffix}
-                      >
-                        {({ countUpRef }) => <span ref={countUpRef} />}
-                      </CountUp>
+                      />
                     </Text>
                   </VStack>
                 ))}
