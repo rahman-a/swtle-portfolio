@@ -95,15 +95,26 @@ export default function VerificationDocumentsForm({
                     />
                   )}
                 />
-                <Input
-                  id='expireAt-id'
-                  type={toggleIdInputDate ? 'date' : 'text'}
-                  placeholder={`${t('registration.expireAt_required')}`}
-                  onFocus={() => setToggleIdInputDate(true)}
-                  {...register('expireAt.identity', {
-                    required: `${t('registration.expireAt_required')}`,
-                  })}
-                />
+                <HStack w='100%' position='relative'>
+                  <Input
+                    id='expireAt-id'
+                    type={toggleIdInputDate ? 'date' : 'text'}
+                    placeholder={`${t('registration.expireAt_required')}`}
+                    onFocus={() => setToggleIdInputDate(true)}
+                    {...register('expireAt.identity', {
+                      required: `${t('registration.expireAt_required')}`,
+                    })}
+                  />
+                  <Text
+                    position='absolute'
+                    right='0.5rem'
+                    fontSize='xl'
+                    as='span'
+                    color='red.500'
+                  >
+                    *
+                  </Text>
+                </HStack>
               </VStack>
             </FormControl>
           </Box>
@@ -151,15 +162,26 @@ export default function VerificationDocumentsForm({
                     />
                   )}
                 />
-                <Input
-                  id='expireAt-pass'
-                  type={togglePassInputDate ? 'date' : 'text'}
-                  placeholder={`${t('registration.expireAt_required')}`}
-                  onFocus={() => setTogglePassInputDate(true)}
-                  {...register('expireAt.passport', {
-                    required: `${t('registration.expireAt_required')}`,
-                  })}
-                />
+                <HStack w='100%' position='relative'>
+                  <Input
+                    id='expireAt-pass'
+                    type={togglePassInputDate ? 'date' : 'text'}
+                    placeholder={`${t('registration.expireAt_required')}`}
+                    onFocus={() => setTogglePassInputDate(true)}
+                    {...register('expireAt.passport', {
+                      required: `${t('registration.expireAt_required')}`,
+                    })}
+                  />
+                  <Text
+                    position='absolute'
+                    right='0.5rem'
+                    fontSize='xl'
+                    as='span'
+                    color='red.500'
+                  >
+                    *
+                  </Text>
+                </HStack>
               </VStack>
             </FormControl>
           </Box>
