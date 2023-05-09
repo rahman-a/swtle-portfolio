@@ -22,3 +22,4 @@ export { default as RegistrationForm } from './Registration-Form/Registration-Fo
 export { default as RegistrationProgressIndicator } from './Registration-Form/Registration-Progress-Indicator'
 export { default as PhoneConfirmModal } from './Phone-Confirm-Modal'
 export { default as ChatwootLiveChat } from './Chatwoot-Livechat'
+export { default as GoogleMap } from './Google-Map'

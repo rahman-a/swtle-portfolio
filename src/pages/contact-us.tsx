@@ -1,5 +1,5 @@
 import { NextSeo } from 'next-seo'
-import { ContactForm, HeroSection } from '../components'
+import { ContactForm, GoogleMap, HeroSection } from '../components'
 import {
   Container,
   Flex,
@@ -14,9 +14,6 @@ import {
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 import NextLink from 'next/link'
 import { LocationIcon } from '../icons'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { fadeUp, fadeLeft, fadeRight } from '@animation-variants'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -24,13 +21,11 @@ import { GetStaticPropsContext } from 'next'
 import contactUsBG from '@assets/images/contact-us.png'
 import contactUsBGMedium from '@assets/images/contact-us-md.png'
 import contactUsBGSmall from '@assets/images/contact-us-sm.png'
-import mapImage from '@assets/images/map.png'
 interface IContactUsProps {}
 
 export default function ContactUs(props: IContactUsProps) {
   const { t } = useTranslation('contact')
   const { t: tf } = useTranslation('footer')
-  const { locale } = useRouter()
   return (
     <>
       <NextSeo title='Swtle | Contact Us' />
@@ -73,7 +68,7 @@ export default function ContactUs(props: IContactUsProps) {
             </Box>
             {/* Google Map */}
             <Box width={{ base: '100%', lg: 'auto' }}>
-              <Image src={mapImage} alt='Google Map' width={600} height={400} />
+              <GoogleMap />
             </Box>
           </VStack>
           <ContactForm />
