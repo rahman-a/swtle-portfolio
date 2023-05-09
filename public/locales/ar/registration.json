@@ -57,6 +57,7 @@
   "registration.enter_phone": "من فضلك أدخل رقم الهاتف",
   "registration.phone_remove": "حذف رقم الهاتف",
   "registration.phone_add": "إضافة رقم الهاتف",
+  "registration.choose_country_code": "من فضلك إختر الدولة أولاً قبل ادخال رقم الهاتف",
   "//! Verification Documents Step": "//////////////////////////////",
   "registration.max_file_size": "أقصى حجم للملف هو {{size}}",
   "registration.personal_photo": "الصورة الشخصية",

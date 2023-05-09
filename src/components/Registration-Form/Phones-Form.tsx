@@ -3,6 +3,7 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   HStack,
   IconButton,
@@ -139,6 +140,9 @@ export default function PhonesForm({ isVisible }: IPhonesFormProps) {
                   />
                 )}
               />
+              <FormHelperText>
+                {t('registration.choose_country_code')}
+              </FormHelperText>
             </FormControl>
             {index > 0 && (
               <IconButton

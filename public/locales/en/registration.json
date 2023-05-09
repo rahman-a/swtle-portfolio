@@ -57,6 +57,7 @@
   "registration.enter_phone": "Please enter your phone number",
   "registration.phone_remove": "remove the last Phone number",
   "registration.phone_add": "add another Phone number",
+  "registration.choose_country_code": "Please choose country first before entering phone number",
   "//! Verification Documents Step": "//////////////////////////////",
   "registration.max_file_size": "Max File Sized: {{size}}",
   "registration.personal_photo": "Personal Photo",
