@@ -12,8 +12,6 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { PhoneIcon } from '@chakra-ui/icons'
-import { motion } from 'framer-motion'
-import { fadeUp, fadeRight, zoomIn } from '@animation-variants'
 import logoImage from '@assets/images/logo.svg'
 import {
   LocationIcon,

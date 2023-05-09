@@ -14,7 +14,6 @@ import {
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 import NextLink from 'next/link'
 import { LocationIcon } from '../icons'
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'

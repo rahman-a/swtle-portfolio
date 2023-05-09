@@ -7,7 +7,6 @@ import {
   ListItem,
   Text,
 } from '@chakra-ui/react'
-import * as React from 'react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { fadeLeft, fadeRight, fadeUp } from '@animation-variants'

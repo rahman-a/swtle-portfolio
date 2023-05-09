@@ -11,7 +11,6 @@ import {
   HStack,
   VStack,
   Heading,
-  Text,
   Alert,
   AlertIcon,
   AlertTitle,

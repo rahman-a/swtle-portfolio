@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import flags from 'country-flag-emoji-json'
 import {
   FormControl,

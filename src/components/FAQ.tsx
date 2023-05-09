@@ -13,8 +13,6 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
-import { motion } from 'framer-motion'
-import { zoomIn } from '../animation-variants'
 
 interface IFAQProps {}
 

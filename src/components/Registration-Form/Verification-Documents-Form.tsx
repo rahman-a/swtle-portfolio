@@ -13,7 +13,7 @@ import type { IRegistrationProps } from '../../types/Registration-types'
 import { useFormContext, Controller } from 'react-hook-form'
 import { useTranslation } from 'next-i18next'
 import Thumbnail from './Thumbnail'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import UploadInput from './Upload-Input'
 import CameraShot from './Camera-Shot'
 

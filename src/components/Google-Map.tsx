@@ -7,7 +7,7 @@ export default function GoogleMap(props: IGoogleMapProps) {
   const width = useBreakpointValue({ base: '100%', md: '600px' })
   return (
     <iframe
-      src='https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d3012.339176113886!2d55.317913646271926!3d25.262041543941017!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2seg!4v1683650144773!5m2!1sen!2seg'
+      src={process.env.NEXT_PUBLIC_GOOGLE_MAP_URL}
       width={width}
       height='450'
       style={{ border: 0 }}

@@ -1,7 +1,5 @@
-import * as React from 'react'
 import { Box, Container, Flex, Text } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
-import { motion } from 'framer-motion'
 import FeatureCard from './Feature-Card'
 
 interface IWhySwtleProps {}

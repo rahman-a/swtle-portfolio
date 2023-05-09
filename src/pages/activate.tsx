@@ -16,7 +16,6 @@ import Countdown, { zeroPad } from 'react-countdown'
 import userAPI from '../services/credentials'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetStaticPropsContext } from 'next'
 interface IEmailActivationProps {
   isVerified: boolean
   message: string

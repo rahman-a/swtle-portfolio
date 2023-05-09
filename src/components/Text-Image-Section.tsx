@@ -12,8 +12,6 @@ import {
   ListIcon,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { motion } from 'framer-motion'
-import { fadeDown, fadeRight, fadeUp, zoomIn } from '@animation-variants'
 import SectionImage from './Section-Image'
 import Image from 'next/image'
 import { ISectionImageProps } from './Section-Image'

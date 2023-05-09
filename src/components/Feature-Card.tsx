@@ -2,7 +2,6 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { Flex, VStack, Text, Link, Box } from '@chakra-ui/react'
-import * as React from 'react'
 import { useTranslation } from 'next-i18next'
 
 interface IFeatureCardProps {

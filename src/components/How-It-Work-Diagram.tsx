@@ -1,6 +1,5 @@
 import { Box, Flex, useBreakpointValue } from '@chakra-ui/react'
 import Image from 'next/image'
-import * as React from 'react'
 
 interface IHowItWorkDiagramProps {
   images: {

@@ -2,7 +2,6 @@ import { Box, Text } from '@chakra-ui/react'
 import { StaticImageData } from 'next/image'
 import { fadeUp } from '@animation-variants'
 import { motion } from 'framer-motion'
-import * as React from 'react'
 
 interface IHeroSectionProps {
   image: {

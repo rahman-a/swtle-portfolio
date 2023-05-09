@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-import * as React from 'react'
 import NextLink from 'next/link'
 import {
   Box,
@@ -12,7 +11,6 @@ import {
   Link,
 } from '@chakra-ui/react'
 import { LoveLetterIcon } from '../icons'
-import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
 interface ITermsAndConditionProps {}

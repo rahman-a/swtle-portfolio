@@ -1,8 +1,4 @@
-import * as React from 'react'
 import {
-  Box,
-  Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
@@ -14,14 +10,6 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { motion } from 'framer-motion'
-import {
-  fadeUp,
-  fadeDown,
-  zoomOut,
-  fadeLeft,
-  fadeRight,
-} from '@animation-variants'
 import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { FacebookIcon, LinkedinIcon, TwitterIcon } from '../icons'

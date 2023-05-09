@@ -1,15 +1,11 @@
-import * as React from 'react'
 import ReactPlayer from 'react-player/youtube'
 
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
 } from '@chakra-ui/react'
 
 interface IVideoProps {

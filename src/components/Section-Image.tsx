@@ -1,8 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import { StaticImageData } from 'next/image'
 import { useRouter } from 'next/router'
-import { motion } from 'framer-motion'
-import { fadeDownLeft, fadeDownRight, zoomIn } from '@animation-variants'
 import Image from 'next/image'
 import classNames from 'classnames'
 import React from 'react'

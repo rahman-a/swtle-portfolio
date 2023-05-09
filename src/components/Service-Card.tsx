@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 
 import { motion } from 'framer-motion'
-import { zoomIn, fadeUp, fadeDown } from '@animation-variants'
+import { zoomIn, fadeDown } from '@animation-variants'
 
 interface IServiceCardProps {
   title: string
