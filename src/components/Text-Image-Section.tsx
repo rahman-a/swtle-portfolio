@@ -90,11 +90,6 @@ export default function TextImageSection({
           display={{ base: 'none', xl: 'block' }}
           left={{ base: '45rem' }}
           top={{ base: '8rem' }}
-          as={motion.div}
-          initial='hide'
-          whileInView='show'
-          exit='hide'
-          variants={zoomIn}
         >
           <Image
             src='/images/vector-one.png'
@@ -109,11 +104,6 @@ export default function TextImageSection({
           position='absolute'
           left={{ base: '2rem' }}
           top={{ base: '12rem', xl: '5rem' }}
-          as={motion.div}
-          initial='hide'
-          whileInView='show'
-          exit='hide'
-          variants={zoomIn}
         >
           <Image
             src='/images/vector-two.png'
@@ -141,11 +131,6 @@ export default function TextImageSection({
               width='100%'
               display={{ base: 'flex', xl: 'block' }}
               justifyContent={{ base: 'center' }}
-              as={motion.div}
-              initial='hide'
-              whileInView='show'
-              exit='hide'
-              variants={fadeRight}
             >
               <Text
                 as='span'
@@ -184,24 +169,12 @@ export default function TextImageSection({
               <Text
                 fontSize={{ base: 'xl', sm: '2xl', md: '3xl' }}
                 fontWeight='bold'
-                as={motion.h3}
-                initial='hide'
-                whileInView='show'
-                exit='hide'
-                variants={fadeRight}
               >
                 {title}
               </Text>
             )}
             {subtitle && (
-              <Text
-                as={motion.h4}
-                initial='hide'
-                whileInView='show'
-                exit='hide'
-                variants={fadeDown}
-                fontSize={{ base: 'lg', sm: 'xl', md: '2xl' }}
-              >
+              <Text fontSize={{ base: 'lg', sm: 'xl', md: '2xl' }}>
                 {subtitle}
               </Text>
             )}
@@ -212,22 +185,12 @@ export default function TextImageSection({
                     orientation='vertical'
                     background={verticalLine.color}
                     width={verticalLine.width}
-                    as={motion.hr}
-                    initial='hide'
-                    whileInView='show'
-                    exit='hide'
-                    variants={fadeDown}
                   />
                 )}
                 <Text
                   color='gray.500'
                   lineHeight={{ base: '1.8', md: '1.6' }}
                   fontSize={descriptionFontSize}
-                  as={motion.p}
-                  initial='hide'
-                  whileInView='show'
-                  exit='hide'
-                  variants={fadeRight}
                 >
                   {description}
                 </Text>
@@ -235,15 +198,7 @@ export default function TextImageSection({
               {list && list.length > 0 && (
                 <List spacing={3}>
                   {list.map((item) => (
-                    <ListItem
-                      key={item.id}
-                      fontSize={{ base: 'sm' }}
-                      as={motion.li}
-                      initial='hide'
-                      whileInView='show'
-                      exit='hide'
-                      variants={fadeRight}
-                    >
+                    <ListItem key={item.id} fontSize={{ base: 'sm' }}>
                       <ListIcon as={FillCircleIcon} color='variation' />
                       {item.text}
                     </ListItem>
@@ -255,11 +210,6 @@ export default function TextImageSection({
               <Button
                 onClick={() => router.push(sectionButton.href)}
                 {...sectionButton}
-                as={motion.button}
-                initial='hide'
-                whileInView='show'
-                exit='hide'
-                variants={fadeUp}
               >
                 {sectionButton.label}
               </Button>

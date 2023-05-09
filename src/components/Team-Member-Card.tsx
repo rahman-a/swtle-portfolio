@@ -34,62 +34,30 @@ export default function TeamMemberCard(props: ITeamMemberCardProps) {
   const par = t('team.member.1.content')
   const { locale } = useRouter()
   return (
-    <Card
-      boxShadow='lg'
-      width={96}
-      as={motion.div}
-      initial='hide'
-      whileInView='show'
-      variants={fadeUp}
-    >
+    <Card boxShadow='lg' width={96}>
       <CardBody alignItems='center' display='flex' flexDirection='column'>
-        <Box
-          as={motion.div}
-          initial='hide'
-          whileInView='show'
-          variants={zoomOut}
-        >
-          <Image
-            src='/images/team-member.png'
-            alt='Team Member'
-            width={300}
-            height={300}
-          />
-        </Box>
+        <Image
+          src='/images/team-member.png'
+          alt='Team Member'
+          width={300}
+          height={300}
+        />
         <VStack mt={3} spacing={4}>
           <Text
             fontSize='2xl'
             color='secondary'
             fontWeight='bold'
             textAlign='center'
-            as={motion.h3}
-            initial='hide'
-            whileInView='show'
-            variants={fadeUp}
           >
             {t('team.member.1.name')}
           </Text>
-          <Text
-            fontSize='md'
-            height={20}
-            as={motion.p}
-            initial='hide'
-            whileInView='show'
-            variants={fadeDown}
-          >
+          <Text fontSize='md' height={20}>
             {par.length > 200 ? par.slice(0, 200) + '...' : par}
           </Text>
         </VStack>
       </CardBody>
       <CardFooter>
-        <Flex
-          w='100%'
-          justifyContent='space-between'
-          as={motion.div}
-          initial='hide'
-          whileInView='show'
-          variants={locale === 'en' ? fadeRight : fadeLeft}
-        >
+        <Flex w='100%' justifyContent='space-between'>
           <HStack spacing={4}>
             <Link
               as={NextLink}

@@ -125,10 +125,6 @@ export default function HowItWorks(props: IHowItWorksProps) {
         <Text
           fontSize={{ base: '2xl', md: '3xl', xl: '4xl' }}
           width={{ base: '95%', md: '60%' }}
-          as={motion.h2}
-          initial='hide'
-          whileInView='show'
-          variants={locale === 'en' ? fadeRight : fadeLeft}
         >
           {t('works.header')}
         </Text>
@@ -140,15 +136,7 @@ export default function HowItWorks(props: IHowItWorksProps) {
           justifyContent='center'
           position='relative'
         >
-          <Text
-            as={motion.p}
-            initial='hide'
-            whileInView='show'
-            variants={fadeDown}
-            width='fit-content'
-            fontWeight='bold'
-            fontSize='3xl'
-          >
+          <Text width='fit-content' fontWeight='bold' fontSize='3xl'>
             {t('works.strategy')}
           </Text>
           <HStack

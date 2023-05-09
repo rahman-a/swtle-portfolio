@@ -46,12 +46,7 @@ export default function ContactUs(props: IContactUsProps) {
       <Container minW='95%' mb='14'>
         <Flex flexDirection={{ base: 'column', lg: 'row' }} gap={{ base: 20 }}>
           <VStack alignItems='flex-start' spacing={4}>
-            <Box
-              as={motion.div}
-              initial='hide'
-              whileInView='show'
-              variants={locale === 'en' ? fadeRight : fadeLeft}
-            >
+            <Box>
               <Text as='h2' fontSize='3xl'>
                 {t('contact.header')}
               </Text>
@@ -77,13 +72,7 @@ export default function ContactUs(props: IContactUsProps) {
               </List>
             </Box>
             {/* Google Map */}
-            <Box
-              width={{ base: '100%', lg: 'auto' }}
-              as={motion.div}
-              initial='hide'
-              whileInView='show'
-              variants={fadeUp}
-            >
+            <Box width={{ base: '100%', lg: 'auto' }}>
               <Image src={mapImage} alt='Google Map' width={600} height={400} />
             </Box>
           </VStack>

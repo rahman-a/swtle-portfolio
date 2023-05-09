@@ -53,13 +53,7 @@ export default function Services(props: IServicesProps) {
           <Tabs isFitted>
             <TabList>
               <Tab color='gray.400' _selected={{ color: 'primary' }}>
-                <HStack
-                  spacing={4}
-                  as={motion.div}
-                  initial='hide'
-                  whileInView='show'
-                  variants={fadeRight}
-                >
+                <HStack spacing={4}>
                   <UserIcon boxSize={8} />
                   <Text
                     as='h2'
@@ -70,13 +64,7 @@ export default function Services(props: IServicesProps) {
                 </HStack>
               </Tab>
               <Tab color='gray.400' _selected={{ color: 'primary' }}>
-                <HStack
-                  spacing={4}
-                  as={motion.div}
-                  initial='hide'
-                  whileInView='show'
-                  variants={fadeLeft}
-                >
+                <HStack spacing={4}>
                   <SuitCaseIcon boxSize={8} />
                   <Text
                     as='h2'
@@ -104,14 +92,7 @@ export default function Services(props: IServicesProps) {
           </Tabs>
         </Box>
         <Divider height='2px' my={4} backgroundColor='gray.500' />
-        <Text
-          fontWeight='bold'
-          fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
-          as={motion.h2}
-          initial='hide'
-          whileInView='show'
-          variants={locale === 'en' ? fadeRight : fadeLeft}
-        >
+        <Text fontWeight='bold' fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}>
           {t('services.benefits.header')}
         </Text>
         <Box>

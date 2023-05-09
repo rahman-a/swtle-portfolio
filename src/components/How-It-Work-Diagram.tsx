@@ -8,14 +8,10 @@ interface IHowItWorkDiagramProps {
     sm: string
     lg: string
   }
-  animation: {
-    [key: string]: string
-  }
 }
 
 export default function HowItWorkDiagram({
   images,
-  animation,
   ...rest
 }: IHowItWorkDiagramProps) {
   const imageSrc = useBreakpointValue({ ...images }, { fallback: 'lg' })
@@ -31,12 +27,7 @@ export default function HowItWorkDiagram({
           xl: '35rem',
         }}
       >
-        <Image
-          {...animation}
-          src={`${imageSrc}`}
-          alt='How it work diagram'
-          fill
-        />
+        <Image src={`${imageSrc}`} alt='How it work diagram' fill />
       </Flex>
     </Box>
   )

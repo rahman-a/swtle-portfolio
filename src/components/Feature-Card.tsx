@@ -9,30 +9,20 @@ interface IFeatureCardProps {
   title: string
   description: string
   image: string
-  isEven?: boolean
 }
 
 export default function FeatureCard({
   title,
   description,
   image,
-  isEven,
 }: IFeatureCardProps) {
   const { t } = useTranslation('common')
   const { locale } = useRouter()
-  const animationHandler = (): string => {
-    if (isEven) {
-      return locale === 'en' ? 'fade-right' : 'fade-left'
-    } else {
-      return locale === 'ar' ? 'fade-right' : 'fade-left'
-    }
-  }
   return (
     <Flex
       gap={8}
       flexDirection={{ base: 'column', md: 'row' }}
       width={{ base: '100%', xl: '45%' }}
-      data-aos={animationHandler()}
     >
       <Image src={image} alt='feature' width={217} height={165} />
       <VStack alignItems='flex-start'>

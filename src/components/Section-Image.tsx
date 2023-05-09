@@ -42,11 +42,6 @@ export default function SectionImage({
       width={{ base: '100%', sm: '45%' }}
       className={outlineStyle}
       style={{ ...styles }}
-      as={motion.div}
-      initial='hide'
-      whileInView='show'
-      exit='show'
-      variants={locale === 'ar' ? fadeDownRight : fadeDownLeft}
     >
       {overlayText && (
         <Box
@@ -62,11 +57,6 @@ export default function SectionImage({
           color='white'
           fontSize={{ base: '2xl', md: '3xl', lg: '4xl', xl: '6xl' }}
           textTransform='uppercase'
-          as={motion.div}
-          initial='hide'
-          whileInView='show'
-          exit='show'
-          variants={zoomIn}
         >
           {overlayText}
         </Box>

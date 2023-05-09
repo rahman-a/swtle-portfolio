@@ -26,24 +26,24 @@ export default function Partner(props: IPartnerProps) {
       >
         <Text
           color='primary'
-          as={motion.h3}
-          initial='hide'
-          whileInView='show'
-          exit='show'
-          variants={fadeUp}
+          // as={motion.h3}
+          // initial='hide'
+          // whileInView='show'
+          // exit='show'
+          // variants={fadeUp}
         >
           {t('hero.partner_success')}
         </Text>
         <HStack justifyContent='space-evenly' w='100%'>
           <Image
-            data-aos='zoom-in'
+            // data-aos='zoom-in'
             src='/images/tdra.png'
             alt='TDRA'
             width={100}
             height={100}
           />
           <Image
-            data-aos='zoom-in'
+            // data-aos='zoom-in'
             src='/images/economytourism.png'
             alt='Economy and Tourism'
             width={100}

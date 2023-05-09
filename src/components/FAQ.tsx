@@ -66,10 +66,6 @@ export default function FAQ(props: IFAQProps) {
           position='relative'
           zIndex='22'
           gap={{ base: 8 }}
-          as={motion.div}
-          initial='hide'
-          whileInView='show'
-          variants={zoomIn}
         >
           <VStack>
             {router.locale === 'en' && (

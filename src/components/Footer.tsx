@@ -33,13 +33,7 @@ export default function Footer(props: IFooterProps) {
     <footer className='footer'>
       <Container maxW='95%' mx='auto'>
         <Flex direction={'column'} gap={10} alignItems='center'>
-          <Box
-            as={motion.div}
-            initial='hide'
-            whileInView='show'
-            exit='show'
-            variants={zoomIn}
-          >
+          <Box>
             <Image src={logoImage} alt='logo' width={100} height={100} />
           </Box>
           <Flex
@@ -53,15 +47,7 @@ export default function Footer(props: IFooterProps) {
             direction='row'
             flexWrap='wrap'
           >
-            <VStack
-              as={motion.div}
-              initial='hide'
-              whileInView='show'
-              exit='show'
-              variants={fadeUp}
-              alignItems='flex-start'
-              spacing={4}
-            >
+            <VStack alignItems='flex-start' spacing={4}>
               <HStack spacing={4}>
                 <LocationIcon />
                 <Text as='p' w={{ sm: '20rem', xl: '25rem' }}>
@@ -95,15 +81,7 @@ export default function Footer(props: IFooterProps) {
                 </Flex>
               </HStack>
             </VStack>
-            <VStack
-              as={motion.div}
-              initial='hide'
-              whileInView='show'
-              exit='show'
-              variants={fadeUp}
-              alignItems='flex-start'
-              spacing={1}
-            >
+            <VStack alignItems='flex-start' spacing={1}>
               <Link as={NextLink} href='/'>
                 {tn('home')}
               </Link>
@@ -117,15 +95,7 @@ export default function Footer(props: IFooterProps) {
                 {t('faqs')}
               </Link>
             </VStack>
-            <VStack
-              as={motion.div}
-              initial='hide'
-              whileInView='show'
-              exit='show'
-              variants={fadeUp}
-              alignItems='flex-start'
-              spacing={4}
-            >
+            <VStack alignItems='flex-start' spacing={4}>
               <Link as={NextLink} href='/team'>
                 {tn('our_team')}
               </Link>
@@ -140,13 +110,7 @@ export default function Footer(props: IFooterProps) {
               </Link>
             </VStack>
           </Flex>
-          <Box
-            as={motion.div}
-            initial='hide'
-            whileInView='show'
-            exit='show'
-            variants={fadeRight}
-          >
+          <Box>
             <Divider mb={3} opacity={0.5} />
             <Text
               fontSize={{ base: 'sm' }}

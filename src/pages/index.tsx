@@ -40,11 +40,6 @@ export default function Home() {
           sm: t('diagram_medium'),
           lg: t('diagram_large'),
         }}
-        animation={{
-          'data-aos': 'flip-down',
-          'data-aos-easing': 'ease-out-cubic',
-          'data-aos-duration': '2000',
-        }}
       />
       <Container minWidth='95%'>
         <TextImageSection
