@@ -7,7 +7,7 @@ import { GetStaticPropsContext } from 'next'
 interface IRegisterProps {}
 
 export default function Register(props: IRegisterProps) {
-  const [step, setStep] = useState(4)
+  const [step, setStep] = useState(0)
   return (
     <>
       <NextSeo title='Swtle | Register' />
