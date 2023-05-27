@@ -11,9 +11,9 @@ import {
   ListItem,
   ListIcon,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import SectionImage from './Section-Image'
 import Image from 'next/image'
+import NextLink from 'next/link'
 import { ISectionImageProps } from './Section-Image'
 import { FillCircleIcon } from '../icons'
 
@@ -75,7 +75,6 @@ export default function TextImageSection({
   HGap,
   list,
 }: ITextImageSectionProps) {
-  const router = useRouter()
   return (
     <Box
       py={{ base: 4, md: 8, lg: 12, xl: 16, '2xl': 20 }}
@@ -205,10 +204,7 @@ export default function TextImageSection({
               )}
             </VStack>
             {sectionButton && (
-              <Button
-                onClick={() => router.push(sectionButton.href)}
-                {...sectionButton}
-              >
+              <Button as={NextLink} {...sectionButton}>
                 {sectionButton.label}
               </Button>
             )}

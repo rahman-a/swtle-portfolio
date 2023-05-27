@@ -29,7 +29,7 @@ export default function Home() {
       <WhySwtle />
       <TakeAction
         content={t('cta.1.title')}
-        cta={{ label: tCommon('sign_up'), href: '/login' }}
+        cta={{ label: tCommon('sign_up'), href: 'https://app.swtle.com' }}
         width={{ base: '100%', md: '80%', xl: '60%' }}
         styles={{ padding: '2.5rem 0', backgroundColor: '#F9F9F9' }}
       />

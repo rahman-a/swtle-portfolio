@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import NextLink from 'next/link'
 
 interface ICTAProps {
   label: string
@@ -14,18 +14,15 @@ export default function CTA({
   onClose,
   isHeroSection,
 }: ICTAProps) {
-  const router = useRouter()
-  const CtaHandler = () => {
-    router.push(`${process.env.NEXT_PUBLIC_APP_URL}`)
-    onClose && onClose()
-  }
   return (
     <Button
+      as={NextLink}
+      href={`${process.env.NEXT_PUBLIC_APP_URL}`}
       display={{
-        base: isOpen || isHeroSection ? 'block' : 'none',
-        xl: 'block',
+        base: isOpen || isHeroSection ? 'flex' : 'none',
+        xl: 'flex',
       }}
-      onClick={CtaHandler}
+      onClick={() => onClose && onClose()}
       variant='primary'
       minW='8rem'
       width={isOpen ? '90%' : 'auto'}

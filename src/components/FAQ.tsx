@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import NextLink from 'next/link'
 
 interface IFAQProps {}
 
@@ -107,7 +108,8 @@ export default function FAQ(props: IFAQProps) {
             ))}
           </Accordion>
           <Button
-            onClick={() => router.push('/contact-us')}
+            as={NextLink}
+            href='/contact-us'
             variant='primary'
             borderRadius={20}
             my={8}
